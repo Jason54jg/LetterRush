@@ -2,6 +2,7 @@ LetterRush 1.0.0 — toutes les versions stables 1.21.x
 =====================================================
 
 Dossiers release/1.21.1 … release/1.21.11 (11 versions Minecraft).
+Le jar Fabric 1.21.11 accepte toute la branche 1.21.x (>=1.21.1 <1.22 dans fabric.mod.json).
 
 Fabric : un jar par version (letterrush-1.0.0-<mc>+fabric.jar).
 
