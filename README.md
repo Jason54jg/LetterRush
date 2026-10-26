@@ -12,7 +12,9 @@ Build **1.21.1 → 1.21.11** :
 
 Artefacts dans `release/<version>/` (voir [release/README.txt](release/README.txt)).
 
-Version de dev par défaut : **1.21.11** (`gradle/versions/` pour chaque MC).
+Version de dev par défaut : **1.21.1** (racine `gradle.properties`, sans fusion de profil). Chaque jar Fabric `release/<mc>/` cible **cette** version Minecraft (`fabric.mod.json`, ex. 1.21.11 → `>=1.21.11 <1.21.12`). Pour **1.21.1–1.21.10**, utilisez le jar du dossier correspondant, pas celui de 1.21.11.
+
+**CI GitHub** : matrices **1.21.1–1.21.11** (Java 21) et **26.1–26.3** (Java 25), artefacts par version MC.
 
 Dépendances : Fabric Loader + Fabric API, ou NeoForge (21.1+ / 21.3+ / 21.4+ / 21.5+ / 21.8+ selon MC ; voir substitutes dans `release/README.txt`), plus **Architectury API 13.0.8+**.
 
@@ -63,7 +65,7 @@ Placez des fichiers JSON sous :
 
 Si au moins une récompense datapack est chargée (`/reload`), elle **remplace** la liste du fichier config.
 
-Exemple fourni : `data/letterrush/letterrush/default_rewards.json`.
+Modèle JSON (à copier dans votre datapack, **pas** chargé automatiquement) : [`docs/examples/datapack_rewards.example.json`](docs/examples/datapack_rewards.example.json).
 
 ## Build
 
@@ -71,7 +73,12 @@ Exemple fourni : `data/letterrush/letterrush/default_rewards.json`.
 ./gradlew :fabric:remapJar :neoforge:remapJar
 ```
 
-Java **21** requis.
+| Cible | JDK | Commande |
+|-------|-----|----------|
+| **1.21.x** (profil Gradle courant ou script sans 26) | **21** | `JAVA_HOME=…21 ./scripts/build-all-versions.sh` |
+| **26.x** (`gradle/versions/26.*.properties`) | **25** | `JAVA_HOME=…25 BUILD_26=true ./scripts/build-all-versions.sh` |
+
+Build Gradle d’une version : `cat gradle/versions/common.properties gradle/versions/<mc>.properties > gradle.properties` puis `./gradlew …` avec le JDK correspondant (21 pour 1.21.*, 25 pour 26.*).
 
 ## Structure
 
