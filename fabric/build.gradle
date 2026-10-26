@@ -1,0 +1,96 @@
+plugins {
+    id "com.gradleup.shadow" version "9.5.1"
+}
+
+def unobfuscated = rootProject.findProperty("unobfuscated") == "true"
+
+def earlyMojmap26 = unobfuscated && rootProject.minecraft_version in ["26.1", "26.1.1"]
+
+if (unobfuscated) {
+    sourceSets.main.java.setSrcDirs(["src/main/javaMojmap26"])
+    if (earlyMojmap26) {
+        sourceSets.main.java.exclude("io/github/jason54/letterrush/fabric/LetterRushFabricClient.java")
+        sourceSets.main.java.srcDir("src/main/javaMojmap26_early")
+    }
+    sourceSets.main.resources.srcDir("src/main/resources")
+    sourceSets.main.resources.exclude("fabric.mod.json")
+    sourceSets.main.resources.srcDir("src/unobfuscated/resources")
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+loom {
+    enableModProvidedJavadoc.set(false)
+    mods {
+        main {
+            sourceSet sourceSets.main
+            sourceSet project(":common").sourceSets.main
+        }
+    }
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+}
+
+dependencies {
+    if (unobfuscated) {
+        compileOnly "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+        compileOnly "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    } else {
+        modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+        modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+    }
+
+    if (unobfuscated) {
+        common(project(":common")) { transitive false }
+        shadowCommon(project(path: ":common", configuration: "runtimeElements")) { transitive false }
+    } else {
+        common(project(path: ":common", configuration: "namedElements")) { transitive false }
+        shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    }
+}
+
+processResources {
+    if (unobfuscated) {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    inputs.property "version", project.version
+    inputs.property "minecraft_compat", rootProject.findProperty("minecraft_compat") ?: ">=1.21.1 <1.21.6"
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version, "minecraft_compat": minecraft_compat
+    }
+}
+
+shadowJar {
+    exclude "architectury.common.json"
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = unobfuscated ? "" : "dev-shadow"
+}
+
+if (unobfuscated) {
+    tasks.register("remapJar") {
+        dependsOn(tasks.named("shadowJar"))
+        group = "build"
+        description = "Production jar (unobfuscated; alias for shadowJar)"
+    }
+} else {
+    remapJar {
+        inputFile.set shadowJar.archiveFile
+        dependsOn shadowJar
+    }
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}

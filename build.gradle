@@ -1,0 +1,70 @@
+plugins {
+    id "architectury-plugin" version "3.5.168"
+    id "dev.architectury.loom" version "1.17.487" apply false
+    id "dev.architectury.loom-no-remap" version "1.17.487" apply false
+}
+
+architectury {
+    minecraft = rootProject.minecraft_version
+}
+
+def letterrushUnobfuscated = findProperty("unobfuscated") == "true"
+
+subprojects {
+    if (letterrushUnobfuscated) {
+        apply plugin: "dev.architectury.loom-no-remap"
+    } else {
+        apply plugin: "dev.architectury.loom"
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        if (!letterrushUnobfuscated) {
+            mappings loom.layered {
+                it.mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+                it.mappings "dev.architectury:yarn-mappings-patch-neoforge:${project.neoforge_yarn_patch}"
+            }
+        }
+    }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+
+    base {
+        archivesName = rootProject.archives_base_name
+    }
+
+    version = "${rootProject.mod_version}-${rootProject.minecraft_version}+${project.name}"
+    group = rootProject.maven_group
+
+    repositories {
+        maven { name = "TerraformersMC"; url = "https://maven.terraformersmc.com/" }
+        maven { name = "FzzyMaven"; url = "https://maven.fzzyhmstrs.me/" }
+        maven { name = "CurseMaven"; url = "https://cursemaven.com" }
+        maven { name = "Modrinth"; url = "https://api.modrinth.com/maven" }
+        maven { name = "GeckoLib"; url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+        maven { name = "Patchouli"; url = 'https://maven.blamejared.com' }
+        maven { name = "WispForest"; url = "https://maven.wispforest.io/releases" }
+        maven { name = "Su5ed"; url = "https://maven.su5ed.dev/releases" }
+        maven { name = "Ladysnake"; url = "https://maven.ladysnake.org/releases" }
+        maven { name = "IllusiveSoulworks"; url = "https://maven.theillusivec4.top" }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = "UTF-8"
+        def release = findProperty("unobfuscated") == "true" ? 25 : 21
+        it.options.release = release
+        it.options.compilerArgs.add("-Xlint:unchecked")
+    }
+
+    java {
+        if (findProperty("unobfuscated") == "true") {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(25)
+            }
+        }
+        withSourcesJar()
+    }
+}

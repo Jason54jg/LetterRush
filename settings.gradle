@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        maven { url = "https://maven.architectury.dev/" }
+        maven { url = "https://maven.fabricmc.net/" }
+        maven { url = "https://maven.neoforged.net/releases/" }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+def skipNeoForge = false
+def gradlePropsFile = file("gradle.properties")
+if (gradlePropsFile.exists()) {
+    def props = new Properties()
+    gradlePropsFile.withInputStream { props.load(it) }
+    skipNeoForge = props.getProperty("skip_neoforge", "false") == "true"
+}
+
+include("common")
+include("fabric")
+if (!skipNeoForge) {
+    include("neoforge")
+}
+
+rootProject.name = "letterrush"

@@ -1,0 +1,32 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "letterrush"
+version = "${version}"
+displayName = "LetterRush"
+description = "Fast letter-matching scavenger hunt mini-game for survival multiplayer."
+authors = "Jason54"
+logoFile = "assets/letterrush/icon.png"
+
+[[dependencies.letterrush]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.letterrush]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.letterrush]]
+modId = "architectury"
+type = "required"
+versionRange = "[13.0.8,)"
+ordering = "AFTER"
+side = "BOTH"
