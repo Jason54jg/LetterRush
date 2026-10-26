@@ -12,6 +12,9 @@ import java.util.Random;
 import java.util.UUID;
 
 public final class GameSession {
+    /** Boss-bar loop length (seconds): drains then resets so players see the round is live. */
+    private static final int BOSS_CYCLE_SECONDS = 60;
+
     private final MinecraftServer server;
     private final char letter;
     private final long startTimeMs;
@@ -83,7 +86,10 @@ public final class GameSession {
             lastDisplayedElapsed = elapsed;
             bossBar.setName(bossBarTitle(elapsed));
         }
-        bossBar.setProgress(1f);
+        // No hard timeout: cycle the bar each minute as a live-round signal.
+        float cycle = BOSS_CYCLE_SECONDS;
+        float remainingInCycle = cycle - (elapsed % BOSS_CYCLE_SECONDS);
+        bossBar.setProgress(Math.max(0.02f, remainingInCycle / cycle));
     }
 
     public void clearBossBar() {

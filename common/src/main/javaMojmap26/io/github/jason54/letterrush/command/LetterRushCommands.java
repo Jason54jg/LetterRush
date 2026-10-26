@@ -36,6 +36,7 @@ public final class LetterRushCommands {
         return switch (Math.max(0, Math.min(4, level))) {
             case 0 -> Commands.LEVEL_ALL;
             case 1 -> Commands.LEVEL_MODERATORS;
+            case 2 -> Commands.LEVEL_GAMEMASTERS;
             case 3 -> Commands.LEVEL_ADMINS;
             case 4 -> Commands.LEVEL_OWNERS;
             default -> Commands.LEVEL_GAMEMASTERS;
@@ -51,7 +52,11 @@ public final class LetterRushCommands {
             return 0;
         }
         try {
-            manager.start(source.getServer());
+            if (!manager.start(source.getServer())) {
+                source.sendSuccess(() -> LetterRushText.message("start_failed", "letterrush.chat.start_failed")
+                        .withStyle(ChatFormatting.RED), true);
+                return 0;
+            }
         } catch (RuntimeException e) {
             LetterRush.LOGGER.error("Failed to start LetterRush", e);
             throw e;

@@ -11,6 +11,7 @@
   "letterrush.chat.time_up": "Time's up! Nobody found an item starting with \"%s\".",
   "letterrush.chat.stopped": "Letter Rush round stopped.",
   "letterrush.chat.already_running": "A Letter Rush round is already running.",
+  "letterrush.chat.start_failed": "Could not start Letter Rush (no playable letters / items).",
   "letterrush.chat.not_running": "No Letter Rush round is running.",
   "letterrush.chat.status": "Letter Rush — letter \"%s\", elapsed %s.",
   "letterrush.chat.reloaded": "Letter Rush configuration reloaded.",

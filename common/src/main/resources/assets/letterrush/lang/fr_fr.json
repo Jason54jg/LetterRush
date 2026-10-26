@@ -11,6 +11,7 @@
   "letterrush.chat.time_up": "Temps écoulé ! Personne n'a trouvé d'objet en \"%s\".",
   "letterrush.chat.stopped": "Manche Letter Rush arrêtée.",
   "letterrush.chat.already_running": "Une manche Letter Rush est déjà en cours.",
+  "letterrush.chat.start_failed": "Impossible de lancer Letter Rush (aucune lettre / objet jouable).",
   "letterrush.chat.not_running": "Aucune manche Letter Rush en cours.",
   "letterrush.chat.status": "Letter Rush — lettre \"%s\", écoulé %s.",
   "letterrush.chat.reloaded": "Configuration Letter Rush rechargée.",

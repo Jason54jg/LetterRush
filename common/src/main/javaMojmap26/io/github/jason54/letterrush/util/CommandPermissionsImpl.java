@@ -23,6 +23,7 @@ final class CommandPermissionsImpl {
         return switch (Math.max(0, Math.min(4, level))) {
             case 0 -> Commands.LEVEL_ALL;
             case 1 -> Commands.LEVEL_MODERATORS;
+            case 2 -> Commands.LEVEL_GAMEMASTERS;
             case 3 -> Commands.LEVEL_ADMINS;
             case 4 -> Commands.LEVEL_OWNERS;
             default -> Commands.LEVEL_GAMEMASTERS;

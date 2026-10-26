@@ -44,7 +44,11 @@ public final class LetterRushCommands {
                     .formatted(Formatting.RED), true);
             return 0;
         }
-        manager.start(source.getServer());
+        if (!manager.start(source.getServer())) {
+            source.sendFeedback(() -> LetterRushText.message("start_failed", "letterrush.chat.start_failed")
+                    .formatted(Formatting.RED), true);
+            return 0;
+        }
         return 1;
     }
 
