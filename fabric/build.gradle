@@ -1,5 +1,11 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.gradleup.shadow" version "9.5.1"
+}
+
+def unobfuscated = rootProject.findProperty("unobfuscated") == "true"
+
+if (unobfuscated) {
+    sourceSets.main.java.setSrcDirs(["src/main/javaMojmap26"])
 }
 
 architectury {
@@ -26,12 +32,23 @@ configurations {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+    if (unobfuscated) {
+        compileOnly "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+        compileOnly "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+        compileOnly "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+    } else {
+        modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+        modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+    }
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    if (unobfuscated) {
+        common(project(":common")) { transitive false }
+        shadowCommon(project(path: ":common", configuration: "runtimeElements")) { transitive false }
+    } else {
+        common(project(path: ":common", configuration: "namedElements")) { transitive false }
+        shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    }
 }
 
 processResources {
@@ -45,12 +62,20 @@ processResources {
 shadowJar {
     exclude "architectury.common.json"
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+    archiveClassifier = unobfuscated ? "" : "dev-shadow"
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
-    dependsOn shadowJar
+if (unobfuscated) {
+    tasks.register("remapJar") {
+        dependsOn(tasks.named("shadowJar"))
+        group = "build"
+        description = "Production jar (unobfuscated; alias for shadowJar)"
+    }
+} else {
+    remapJar {
+        inputFile.set shadowJar.archiveFile
+        dependsOn shadowJar
+    }
 }
 
 sourcesJar {

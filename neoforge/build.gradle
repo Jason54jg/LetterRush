@@ -1,6 +1,8 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.gradleup.shadow" version "9.5.1"
 }
+
+def unobfuscated = rootProject.findProperty("unobfuscated") == "true"
 
 architectury {
     platformSetupLoomIde()
@@ -41,10 +43,19 @@ repositories {
 
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
-    modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+    if (unobfuscated) {
+        compileOnly "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+    } else {
+        modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+    }
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowBundle(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+    if (unobfuscated) {
+        common(project(":common")) { transitive false }
+        shadowBundle(project(path: ":common", configuration: "runtimeElements")) { transitive = false }
+    } else {
+        common(project(path: ":common", configuration: "namedElements")) { transitive false }
+        shadowBundle(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+    }
 }
 
 processResources {
@@ -59,12 +70,20 @@ shadowJar {
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
     configurations = [project.configurations.shadowBundle]
-    archiveClassifier = "dev-shadow"
+    archiveClassifier = unobfuscated ? "" : "dev-shadow"
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
-    dependsOn shadowJar
+if (unobfuscated) {
+    tasks.register("remapJar") {
+        dependsOn(tasks.named("shadowJar"))
+        group = "build"
+        description = "Production jar (unobfuscated; alias for shadowJar)"
+    }
+} else {
+    remapJar {
+        inputFile.set shadowJar.archiveFile
+        dependsOn shadowJar
+    }
 }
 
 sourcesJar {

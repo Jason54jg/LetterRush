@@ -1,6 +1,6 @@
 # LetterRush
 
-Mini-jeu multijoueur **letter race** pour Minecraft **1.21.1–1.21.11** (survie, sans dimension custom). Compatible **Fabric** et **NeoForge** via [Architectury](https://github.com/architectury/Architectury).
+Mini-jeu multijoueur **letter race** pour Minecraft **1.21.1–1.21.11** (survie, sans dimension custom). Préparation **26.1 / 26.2 / 26.3** (Mojang, voir [docs/MINECRAFT-26.md](docs/MINECRAFT-26.md)). Compatible **Fabric** et **NeoForge** via [Architectury](https://github.com/architectury/Architectury).
 
 ## Jars (Modrinth)
 

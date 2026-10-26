@@ -1,20 +1,29 @@
 plugins {
-    id "architectury-plugin" version "3.4.161"
-    id "dev.architectury.loom" version "1.13.469" apply false
+    id "architectury-plugin" version "3.5.168"
+    id "dev.architectury.loom" version "1.17.487" apply false
+    id "dev.architectury.loom-no-remap" version "1.17.487" apply false
 }
 
 architectury {
     minecraft = rootProject.minecraft_version
 }
 
+def letterrushUnobfuscated = findProperty("unobfuscated") == "true"
+
 subprojects {
-    apply plugin: "dev.architectury.loom"
+    if (letterrushUnobfuscated) {
+        apply plugin: "dev.architectury.loom-no-remap"
+    } else {
+        apply plugin: "dev.architectury.loom"
+    }
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.layered {
-            it.mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-            it.mappings "dev.architectury:yarn-mappings-patch-neoforge:${project.neoforge_yarn_patch}"
+        if (!letterrushUnobfuscated) {
+            mappings loom.layered {
+                it.mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+                it.mappings "dev.architectury:yarn-mappings-patch-neoforge:${project.neoforge_yarn_patch}"
+            }
         }
     }
 }
@@ -45,11 +54,17 @@ allprojects {
 
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = "UTF-8"
-        it.options.release = 21
+        def release = findProperty("unobfuscated") == "true" ? 25 : 21
+        it.options.release = release
         it.options.compilerArgs.add("-Xlint:unchecked")
     }
 
     java {
+        if (findProperty("unobfuscated") == "true") {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(25)
+            }
+        }
         withSourcesJar()
     }
 }

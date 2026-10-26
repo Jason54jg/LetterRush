@@ -8,6 +8,12 @@ VERSIONS=(
   1.21.6 1.21.7 1.21.8 1.21.9 1.21.10 1.21.11
 )
 
+if [[ "${BUILD_26:-false}" == "true" ]]; then
+  VERSIONS+=(
+    26.1 26.1.1 26.1.2 26.2 26.3
+  )
+fi
+
 merge_properties() {
   local mc="$1"
   cat gradle/versions/common.properties gradle/versions/"${mc}.properties" > gradle.properties
@@ -18,6 +24,12 @@ mkdir -p release
 for mc in "${VERSIONS[@]}"; do
   echo "========== Minecraft ${mc} =========="
   merge_properties "$mc"
+  if grep -q '^unobfuscated=true' gradle.properties; then
+    if [[ -z "${JAVA_HOME:-}" ]] || ! "$JAVA_HOME/bin/java" -version 2>&1 | grep -q 'version "25'; then
+      echo "Skip ${mc}: JDK 25 required (set JAVA_HOME). See docs/MINECRAFT-26.md"
+      continue
+    fi
+  fi
   skip_neo=false
   if grep -q '^skip_neoforge=true' gradle.properties; then
     skip_neo=true
@@ -55,5 +67,9 @@ copy_neo_substitute "1.21.9" "1.21.8"
 copy_neo_substitute "1.21.10" "1.21.8"
 copy_neo_substitute "1.21.11" "1.21.8"
 
-merge_properties "1.21.11"
+if [[ "${BUILD_26:-false}" == "true" ]]; then
+  merge_properties "26.3"
+else
+  merge_properties "1.21.11"
+fi
 echo "Done. Artifacts under release/<version>/"
