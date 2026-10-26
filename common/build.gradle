@@ -7,6 +7,11 @@ def unobfuscated = rootProject.findProperty("unobfuscated") == "true"
 
 if (unobfuscated) {
     sourceSets.main.java.setSrcDirs(["src/main/javaMojmap26"])
+    if (rootProject.minecraft_version == "26.3") {
+        sourceSets.main.java.srcDir("src/main/javaMojmap26_3util")
+    } else {
+        sourceSets.main.java.srcDir("src/main/javaMojmap26_util")
+    }
 } else {
     def mcPatch = mcVersion.startsWith("1.21.") ? mcVersion.split("\\.")[2].toInteger() : 99
     if (mcPatch >= 11) {
@@ -24,8 +29,6 @@ if (unobfuscated) {
 dependencies {
     if (unobfuscated) {
         compileOnly "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-        compileOnly "dev.architectury:architectury:$rootProject.architectury_api_version"
-        compileOnly "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
     } else {
         modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
         modCompileOnly "dev.architectury:architectury:$rootProject.architectury_api_version"

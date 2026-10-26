@@ -18,4 +18,8 @@ Substitutes NeoForge :
   1.21.10 ← 1.21.8
   1.21.11 ← 1.21.8
 
+Minecraft 26.x (expérimental) :
+  BUILD_26=true ./scripts/build-all-versions.sh  (JDK 25)
+  Dossiers release/26.1 … release/26.3 — voir docs/MINECRAFT-26.md
+
 Rebuild : ./scripts/build-all-versions.sh

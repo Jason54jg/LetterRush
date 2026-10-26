@@ -4,6 +4,7 @@ import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
 import io.github.jason54.letterrush.LetterRush;
 import io.github.jason54.letterrush.util.CommandPermissions;
+import io.github.jason54.letterrush.util.PlayerDropHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -41,7 +42,7 @@ public final class RewardExecutor {
         }
         ItemStack stack = new ItemStack(item, Math.max(1, reward.count));
         if (!player.getInventory().add(stack)) {
-            player.drop(stack, false);
+            PlayerDropHelper.dropOverflow(player, stack);
         }
     }
 

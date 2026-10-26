@@ -127,7 +127,7 @@ public final class GameManager {
             ServerLevel winnerWorld = ServerPlayerAccess.world(winner);
             winnerWorld.playSound(winner, winner.blockPosition(), SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.PLAYERS, 1f, 1f);
             server.getPlayerList().getPlayers().forEach(p ->
-                    ServerPlayerAccess.world(p).playSound(p, p.blockPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundSource.PLAYERS, 0.6f, 1.2f));
+                    ServerPlayerAccess.world(p).playSound(p, p.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, 0.6f, 1.2f));
         }
         if (LetterRushConfig.get().winnerParticles) {
             spawnWinnerParticles(winner);

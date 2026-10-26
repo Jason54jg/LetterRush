@@ -3,8 +3,8 @@ package io.github.jason54.letterrush.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import dev.architectury.platform.Platform;
 import io.github.jason54.letterrush.LetterRush;
+import io.github.jason54.letterrush.LetterRushRuntime;
 import io.github.jason54.letterrush.reward.RewardDefinition;
 import net.minecraft.server.MinecraftServer;
 
@@ -97,7 +97,7 @@ public final class LetterRushConfig {
     }
 
     private static Path configPath() {
-        return Platform.getConfigFolder().resolve("letterrush.json");
+        return LetterRushRuntime.configDirectory().resolve("letterrush.json");
     }
 
     private void normalize() {

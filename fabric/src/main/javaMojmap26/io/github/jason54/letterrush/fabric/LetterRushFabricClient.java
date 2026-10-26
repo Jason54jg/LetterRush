@@ -1,25 +1,25 @@
 package io.github.jason54.letterrush.fabric;
 
-import dev.architectury.event.events.client.ClientGuiEvent;
-import dev.architectury.event.events.client.ClientTickEvent;
 import io.github.jason54.letterrush.LetterRush;
-import dev.architectury.networking.NetworkManager;
 import io.github.jason54.letterrush.client.RouletteOverlay;
 import io.github.jason54.letterrush.network.RoulettePayload;
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.minecraft.resources.Identifier;
 
 public final class LetterRushFabricClient implements ClientModInitializer {
+    private static final Identifier ROULETTE_HUD = Identifier.fromNamespaceAndPath(LetterRush.MOD_ID, "roulette");
+
     @Override
     public void onInitializeClient() {
-        NetworkManager.registerReceiver(
-                NetworkManager.Side.S2C,
+        ClientPlayNetworking.registerGlobalReceiver(
                 RoulettePayload.ID,
-                RoulettePayload.CODEC,
-                (payload, context) -> context.queue(() -> RouletteOverlay.start(payload))
+                (payload, context) -> RouletteOverlay.start(payload)
         );
-        ClientTickEvent.CLIENT_POST.register(client -> RouletteOverlay.clientTick());
-        ClientGuiEvent.RENDER_HUD.register((GuiGraphics graphics, float tickDelta) -> RouletteOverlay.render(graphics));
+        ClientTickEvents.END_CLIENT_TICK.register(client -> RouletteOverlay.clientTick());
+        HudElementRegistry.addLast(ROULETTE_HUD, (graphics, tickDelta) -> RouletteOverlay.render(graphics));
         LetterRush.LOGGER.info("LetterRush client initialized.");
     }
 }

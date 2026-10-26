@@ -2,7 +2,7 @@ package io.github.jason54.letterrush.client;
 
 import io.github.jason54.letterrush.network.RoulettePayload;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public final class RouletteOverlay {
         }
     }
 
-    public static void render(GuiGraphics context) {
+    public static void render(GuiGraphicsExtractor context) {
         if (ticksRemaining <= 0 || labels.isEmpty()) {
             return;
         }
@@ -41,14 +41,14 @@ public final class RouletteOverlay {
         if (client.player == null) {
             return;
         }
-        int width = context.getScaledWindowWidth();
+        int width = context.guiWidth();
         int y = 48;
         int index = computeDisplayIndex();
         String label = labels.get(Math.floorMod(index, labels.size()));
         Component line = Component.translatable("letterrush.roulette.spinning").append(" ").append(label);
         int textWidth = client.font.width(line);
         context.fill(width / 2 - textWidth / 2 - 6, y - 4, width / 2 + textWidth / 2 + 6, y + 12, 0xAA000000);
-        context.drawCenteredString(client.font, line, width / 2, y, 0xFFFFD700);
+        context.centeredText(client.font, line, width / 2, y, 0xFFFFD700);
     }
 
     private static int computeDisplayIndex() {

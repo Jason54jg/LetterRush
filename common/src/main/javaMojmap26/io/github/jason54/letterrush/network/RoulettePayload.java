@@ -17,6 +17,9 @@ public record RoulettePayload(UUID winnerId, List<String> labels, int winnerInde
     public static final CustomPacketPayload.Type<RoulettePayload> ID =
             new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(LetterRush.MOD_ID, "roulette"));
 
+    /** NeoForge payload registration alias. */
+    public static final CustomPacketPayload.Type<RoulettePayload> TYPE = ID;
+
     public static final StreamCodec<RegistryFriendlyByteBuf, RoulettePayload> CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8.map(UUID::fromString, UUID::toString), RoulettePayload::winnerId,
             ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8), RoulettePayload::labels,
@@ -24,6 +27,9 @@ public record RoulettePayload(UUID winnerId, List<String> labels, int winnerInde
             ByteBufCodecs.VAR_INT, RoulettePayload::spinTicks,
             (Function4<UUID, List<String>, Integer, Integer, RoulettePayload>) RoulettePayload::new
     );
+
+    /** NeoForge payload registration alias. */
+    public static final StreamCodec<RegistryFriendlyByteBuf, RoulettePayload> STREAM_CODEC = CODEC;
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
