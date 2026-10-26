@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -36,8 +35,7 @@ public final class LetterRushNeoForge {
         });
 
         modBus.addListener(this::registerPayloads);
-        modBus.addListener((FMLClientSetupEvent event) ->
-                NeoForge.EVENT_BUS.register(new LetterRushNeoForgeClient()));
+        // Client payload opens RouletteScreen via registerPayloads; no Forge-bus client listeners needed.
         NeoForge.EVENT_BUS.register(this);
         LetterRush.LOGGER.info("LetterRush initialized (NeoForge / MC 26.x).");
     }

@@ -95,8 +95,13 @@ Single-version Gradle build: `cat gradle/versions/common.properties gradle/versi
 - Banner: [`docs/branding/banner.png`](docs/branding/banner.png)
 - In-game / Modrinth icon: `common/src/main/resources/assets/letterrush/icon.png`
 
+## Wiki
+
+Documentation joueur / serveur : sources dans [`wiki/`](wiki/) — publiée sur le [GitHub Wiki](https://github.com/Jason54jg/LetterRush/wiki) via Actions (`.github/workflows/deploy-wiki.yml`).
+
 ## Modrinth
 
+Page projet (bientôt) : [modrinth.com/project/letterrush](https://modrinth.com/project/letterrush).  
 Publishing guide: [MODRINTH.md](MODRINTH.md).
 
 ## License
@@ -115,4 +120,5 @@ Mini-jeu multijoueur **letter race** pour Minecraft **1.21.11**, **26.1.2**, **2
 - Le premier joueur qui **ramasse** un objet dont le **nom anglais** commence par la lettre tirée gagne
 - Config : `config/letterrush.json` ; récompenses aussi via datapack
 
-Détails techniques et build 26.x : sections anglaises ci-dessus et [docs/MINECRAFT-26.md](docs/MINECRAFT-26.md).
+Détails techniques et build 26.x : sections anglaises ci-dessus et [docs/MINECRAFT-26.md](docs/MINECRAFT-26.md).  
+Wiki FR : [github.com/Jason54jg/LetterRush/wiki](https://github.com/Jason54jg/LetterRush/wiki) (sources `wiki/`).
