@@ -6,6 +6,7 @@ import io.github.jason54.letterrush.LetterRush;
 import io.github.jason54.letterrush.util.CommandPermissions;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
@@ -34,8 +35,12 @@ public final class RewardExecutor {
             LetterRush.LOGGER.warn("Invalid reward item id: {}", reward.item);
             return;
         }
+        if (!Registries.ITEM.containsId(id)) {
+            LetterRush.LOGGER.warn("Unknown reward item: {}", reward.item);
+            return;
+        }
         Item item = Registries.ITEM.get(id);
-        if (item == null) {
+        if (item == Items.AIR) {
             LetterRush.LOGGER.warn("Unknown reward item: {}", reward.item);
             return;
         }

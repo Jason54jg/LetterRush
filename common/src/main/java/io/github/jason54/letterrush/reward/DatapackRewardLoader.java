@@ -31,6 +31,10 @@ public final class DatapackRewardLoader {
         List<RewardDefinition> merged = new ArrayList<>();
         Map<Identifier, Resource> found = manager.findResources("letterrush/rewards", id -> id.getPath().endsWith(".json"));
         for (Map.Entry<Identifier, Resource> entry : found.entrySet()) {
+            String path = entry.getKey().getPath();
+            if (path.contains("/example") || path.endsWith("/example_datapack.json")) {
+                continue;
+            }
             try (InputStreamReader reader = new InputStreamReader(entry.getValue().getInputStream(), StandardCharsets.UTF_8)) {
                 JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
                 if (root.has("rewards")) {

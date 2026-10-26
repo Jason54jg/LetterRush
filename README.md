@@ -63,7 +63,7 @@ Placez des fichiers JSON sous :
 
 Si au moins une récompense datapack est chargée (`/reload`), elle **remplace** la liste du fichier config.
 
-Exemple fourni : `data/letterrush/letterrush/default_rewards.json`.
+Modèle JSON (à copier dans votre datapack, **pas** chargé automatiquement) : [`docs/examples/datapack_rewards.example.json`](docs/examples/datapack_rewards.example.json).
 
 ## Build
 

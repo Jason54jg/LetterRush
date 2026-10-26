@@ -84,7 +84,19 @@ public final class LetterRushNeoForge {
         if (!(event.getPlayer() instanceof ServerPlayer player)) {
             return;
         }
-        ItemStack stack = event.getItemEntity().getItem();
-        PickupHooks.onPickup(player, stack.copy());
+        PickupHooks.onPickup(player, pickedStack(event));
+    }
+
+    private static ItemStack pickedStack(ItemEntityPickupEvent.Post event) {
+        ItemStack original = event.getOriginalStack();
+        ItemStack remaining = event.getItemEntity().getItem();
+        int pickedCount = original.getCount() - remaining.getCount();
+        if (pickedCount <= 0 && remaining.isEmpty()) {
+            pickedCount = original.getCount();
+        }
+        if (pickedCount <= 0) {
+            return ItemStack.EMPTY;
+        }
+        return original.copyWithCount(pickedCount);
     }
 }
