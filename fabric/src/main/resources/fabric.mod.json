@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "letterrush",
+  "version": "${version}",
+  "name": "LetterRush",
+  "description": "Fast letter-matching scavenger hunt mini-game for survival multiplayer.",
+  "authors": ["Jason54"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["io.github.jason54.letterrush.fabric.LetterRushFabric"],
+    "client": ["io.github.jason54.letterrush.fabric.LetterRushFabricClient"]
+  },
+  "mixins": [
+    "letterrush.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": ">=1.21.1 <1.21.4",
+    "java": ">=21",
+    "architectury": ">=13.0.8",
+    "fabric-api": "*"
+  }
+}

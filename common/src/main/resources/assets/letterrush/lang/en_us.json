@@ -1,0 +1,17 @@
+{
+  "letterrush.bossbar.title": "Letter Rush — Find an item starting with \"%s\"",
+  "letterrush.bossbar.time_up": "Letter Rush — Time's up!",
+  "letterrush.title.letter": "Letter: %s",
+  "letterrush.title.subtitle": "Pick up any item whose English name starts with this letter!",
+  "letterrush.title.winner": "%s wins!",
+  "letterrush.title.reward": "Reward: %s",
+  "letterrush.chat.start": "Letter Rush started! Find an item starting with \"%s\" (%ss).",
+  "letterrush.chat.winner": "%s won Letter Rush with \"%s\"! Reward: %s",
+  "letterrush.chat.time_up": "Time's up! Nobody found an item starting with \"%s\".",
+  "letterrush.chat.stopped": "Letter Rush round stopped.",
+  "letterrush.chat.already_running": "A Letter Rush round is already running.",
+  "letterrush.chat.not_running": "No Letter Rush round is running.",
+  "letterrush.chat.status": "Letter Rush — letter \"%s\", %ss remaining.",
+  "letterrush.chat.reloaded": "Letter Rush configuration reloaded.",
+  "letterrush.roulette.spinning": "Spinning the reward wheel..."
+}

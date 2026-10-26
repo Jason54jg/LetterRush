@@ -1,0 +1,50 @@
+{
+  "rewards": [
+    {
+      "id": "diamonds",
+      "weight": 15,
+      "type": "item",
+      "item": "minecraft:diamond",
+      "count": 3,
+      "display": "3 Diamonds"
+    },
+    {
+      "id": "golden_apple",
+      "weight": 10,
+      "type": "item",
+      "item": "minecraft:golden_apple",
+      "count": 1,
+      "display": "Golden Apple"
+    },
+    {
+      "id": "xp_burst",
+      "weight": 25,
+      "type": "experience",
+      "amount": 250,
+      "display": "250 XP"
+    },
+    {
+      "id": "emeralds",
+      "weight": 20,
+      "type": "item",
+      "item": "minecraft:emerald",
+      "count": 8,
+      "display": "8 Emeralds"
+    },
+    {
+      "id": "lucky_star",
+      "weight": 5,
+      "type": "item",
+      "item": "minecraft:nether_star",
+      "count": 1,
+      "display": "Nether Star"
+    },
+    {
+      "id": "fireworks",
+      "weight": 8,
+      "type": "command",
+      "command": "give @p minecraft:firework_rocket 16",
+      "display": "Firework Show"
+    }
+  ]
+}
