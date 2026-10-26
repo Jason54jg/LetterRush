@@ -4,12 +4,17 @@ Mini-jeu multijoueur **letter race** pour Minecraft **1.21.1–1.21.3** (survie,
 
 ## Jars (Modrinth)
 
-| Loader   | Fichier |
-|----------|---------|
-| Fabric   | `fabric/build/libs/letterrush-*+fabric.jar` |
-| NeoForge | `neoforge/build/libs/letterrush-*+neoforge.jar` |
+Build **1.21.1 → 1.21.5** :
 
-Dépendances : Fabric Loader + Fabric API, ou NeoForge 21.1+, plus **Architectury API 13.0.8+**.
+```bash
+./scripts/build-all-versions.sh
+```
+
+Artefacts dans `release/<version>/` (voir [release/README.txt](release/README.txt)).
+
+Version de dev par défaut : **1.21.5** (`gradle/versions/` pour chaque MC).
+
+Dépendances : Fabric Loader + Fabric API, ou NeoForge (21.1+ / 21.3+ / 21.4+ / 21.5+ selon MC), plus **Architectury API 13.0.8+**.
 
 ## Commandes
 

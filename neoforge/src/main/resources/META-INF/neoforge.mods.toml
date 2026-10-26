@@ -20,7 +20,7 @@ side = "BOTH"
 [[dependencies.letterrush]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.1,1.21.4)"
+versionRange = "${minecraft_range}"
 ordering = "NONE"
 side = "BOTH"
 

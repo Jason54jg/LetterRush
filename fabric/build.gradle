@@ -35,8 +35,9 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    inputs.property "minecraft_compat", rootProject.findProperty("minecraft_compat") ?: ">=1.21.1 <1.21.6"
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand "version": project.version, "minecraft_compat": minecraft_compat
     }
 }
 
