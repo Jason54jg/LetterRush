@@ -12,7 +12,7 @@ Build **1.21.1 → 1.21.11** :
 
 Artefacts dans `release/<version>/` (voir [release/README.txt](release/README.txt)).
 
-Version de dev par défaut : **1.21.11** (`gradle/versions/` pour chaque MC). Chaque jar Fabric `release/<mc>/` cible **cette** version Minecraft (`fabric.mod.json`, ex. 1.21.11 → `>=1.21.11 <1.21.12`). Pour **1.21.1–1.21.10**, utilisez le jar du dossier correspondant, pas celui de 1.21.11.
+Version de dev par défaut : **1.21.1** (racine `gradle.properties`, sans fusion de profil). Chaque jar Fabric `release/<mc>/` cible **cette** version Minecraft (`fabric.mod.json`, ex. 1.21.11 → `>=1.21.11 <1.21.12`). Pour **1.21.1–1.21.10**, utilisez le jar du dossier correspondant, pas celui de 1.21.11.
 
 **CI GitHub** : matrices **1.21.1–1.21.11** (Java 21) et **26.1–26.3** (Java 25), artefacts par version MC.
 
