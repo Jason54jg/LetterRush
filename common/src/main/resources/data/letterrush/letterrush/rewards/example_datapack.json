@@ -1,0 +1,19 @@
+{
+  "rewards": [
+    {
+      "id": "datapack_cookie",
+      "weight": 30,
+      "type": "item",
+      "item": "minecraft:cookie",
+      "count": 8,
+      "display": "8 Cookies"
+    },
+    {
+      "id": "datapack_xp",
+      "weight": 20,
+      "type": "experience",
+      "amount": 500,
+      "display": "500 XP (datapack)"
+    }
+  ]
+}

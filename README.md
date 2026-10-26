@@ -74,6 +74,10 @@ Java **21** requis.
 - `fabric/` — entrée Fabric + mixin pickup
 - `neoforge/` — entrée NeoForge + événement pickup
 
+## Modrinth
+
+Guide de publication : [MODRINTH.md](MODRINTH.md). Icône du mod : `assets/letterrush/icon.png`.
+
 ## Licence
 
 MIT — voir [LICENSE](LICENSE).

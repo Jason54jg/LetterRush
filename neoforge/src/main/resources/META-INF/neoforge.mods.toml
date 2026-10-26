@@ -8,6 +8,7 @@ version = "${version}"
 displayName = "LetterRush"
 description = "Fast letter-matching scavenger hunt mini-game for survival multiplayer."
 authors = "Jason54"
+logoFile = "assets/letterrush/icon.png"
 
 [[dependencies.letterrush]]
 modId = "neoforge"
