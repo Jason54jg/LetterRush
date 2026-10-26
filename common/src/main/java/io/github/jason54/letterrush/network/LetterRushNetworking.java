@@ -7,12 +7,15 @@ import io.github.jason54.letterrush.client.RouletteOverlay;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+/**
+ * S2C roulette packet. On Fabric API / Architectury 17+, {@code registerReceiver} already
+ * registers the payload type — do not call {@code registerS2CPayloadType} on the client too.
+ */
 public final class LetterRushNetworking {
     private LetterRushNetworking() {
     }
 
     public static void initCommon() {
-        NetworkManager.registerS2CPayloadType(RoulettePayload.ID, RoulettePayload.CODEC);
         if (Platform.getEnvironment() == Env.CLIENT) {
             NetworkManager.registerReceiver(
                     NetworkManager.Side.S2C,
@@ -20,6 +23,8 @@ public final class LetterRushNetworking {
                     RoulettePayload.CODEC,
                     (payload, context) -> context.queue(() -> RouletteOverlay.start(payload))
             );
+        } else {
+            NetworkManager.registerS2CPayloadType(RoulettePayload.ID, RoulettePayload.CODEC);
         }
     }
 

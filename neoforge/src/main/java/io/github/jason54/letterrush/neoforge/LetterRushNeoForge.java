@@ -16,7 +16,7 @@ import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 public final class LetterRushNeoForge {
     public LetterRushNeoForge() {
         LetterRush.init();
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             LetterRushClient.init();
         }
         NeoForge.EVENT_BUS.register(this);

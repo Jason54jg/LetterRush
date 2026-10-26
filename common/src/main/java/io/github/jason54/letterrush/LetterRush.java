@@ -12,6 +12,7 @@ import io.github.jason54.letterrush.network.LetterRushNetworking;
 import io.github.jason54.letterrush.reward.DatapackRewardLoader;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.SynchronousResourceReloader;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,8 @@ public final class LetterRush {
 
         ReloadListenerRegistry.register(
                 ResourceType.SERVER_DATA,
-                (SynchronousResourceReloader) DatapackRewardLoader::reload
+                (SynchronousResourceReloader) DatapackRewardLoader::reload,
+                Identifier.of(MOD_ID, "rewards")
         );
 
         LifecycleEvent.SERVER_STARTING.register(server -> {

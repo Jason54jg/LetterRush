@@ -1,16 +1,11 @@
 package io.github.jason54.letterrush;
 
-import dev.architectury.event.events.client.ClientTickEvent;
-import dev.architectury.event.events.client.ClientGuiEvent;
-import io.github.jason54.letterrush.client.RouletteOverlay;
-
 public final class LetterRushClient {
     private LetterRushClient() {
     }
 
     public static void init() {
-        ClientTickEvent.CLIENT_POST.register(instance -> RouletteOverlay.clientTick());
-        ClientGuiEvent.RENDER_HUD.register((drawContext, tickDelta) -> RouletteOverlay.render(drawContext));
+        // Roulette opens as RouletteScreen via LetterRushNetworking S2C receiver.
         LetterRush.LOGGER.info("LetterRush client initialized.");
     }
 }

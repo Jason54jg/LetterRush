@@ -1,59 +1,62 @@
 # LetterRush
 
-Mini-jeu multijoueur **letter race** pour Minecraft **1.21.1–1.21.11** (survie, sans dimension custom). Préparation **26.1 / 26.2 / 26.3** (Mojang, voir [docs/MINECRAFT-26.md](docs/MINECRAFT-26.md)). Compatible **Fabric** et **NeoForge** via [Architectury](https://github.com/architectury/Architectury).
+Multiplayer **letter race** mini-game for Minecraft **1.21.11**, **26.1.2**, **26.2**, and **26.3** (survival, no custom dimension). 26.x uses Mojang mappings — see [docs/MINECRAFT-26.md](docs/MINECRAFT-26.md). Supports **Fabric** and **NeoForge** (Architectury on 1.21.11).
+
+> **Français** — Mini-jeu multijoueur « letter race » en survie (**1.21.11**, **26.1.2**, **26.2**, **26.3**). Fabric + NeoForge. Voir la section [Français](#français) plus bas.
 
 ## Jars (Modrinth)
 
-Build **1.21.1 → 1.21.11** :
+Build supported versions:
 
 ```bash
 ./scripts/build-all-versions.sh
+# Windows: powershell -File scripts/build-all-versions.ps1
 ```
 
-Artefacts dans `release/<version>/` (voir [release/README.txt](release/README.txt)).
+Artifacts land in `release/<version>/` (see [release/README.txt](release/README.txt)).
 
-Version de dev par défaut : **1.21.1** (racine `gradle.properties`, sans fusion de profil). Chaque jar Fabric `release/<mc>/` cible **cette** version Minecraft (`fabric.mod.json`, ex. 1.21.11 → `>=1.21.11 <1.21.12`). Pour **1.21.1–1.21.10**, utilisez le jar du dossier correspondant, pas celui de 1.21.11.
+Supported folders: **1.21.11**, **26.1.2**, **26.2**, **26.3**. Each Fabric jar targets **that** Minecraft version only (`fabric.mod.json`).
 
-**CI GitHub** : matrices **1.21.1–1.21.11** (Java 21) et **26.1–26.3** (Java 25), artefacts par version MC.
+**GitHub CI**: **1.21.11** (Java 21) and **26.1.2 / 26.2 / 26.3** (Java 25).
 
-Dépendances : Fabric Loader + Fabric API, ou NeoForge (21.1+ / 21.3+ / 21.4+ / 21.5+ / 21.8+ selon MC ; voir substitutes dans `release/README.txt`), plus **Architectury API 13.0.8+**.
+Dependencies: Fabric Loader + Fabric API, or NeoForge (**21.11.x** for 1.21.11); **Architectury API** on 1.21.11.
 
-## Commandes
+## Commands
 
-| Commande | Description |
-|----------|-------------|
-| `/letterrush start` | Lance une manche (durée par défaut dans la config) |
-| `/letterrush start <secondes>` | Durée personnalisée (5–3600 s) |
-| `/letterrush stop` | Arrête la manche en cours |
-| `/letterrush status` | Lettre active et temps restant |
-| `/letterrush reload` | Recharge `config/letterrush.json` et les datapacks |
+| Command | Description |
+|---------|-------------|
+| `/letterrush start` | Start a round (default duration from config) |
+| `/letterrush start <seconds>` | Custom duration (5–3600 s) |
+| `/letterrush stop` | Stop the current round |
+| `/letterrush status` | Active letter and time remaining |
+| `/letterrush reload` | Reload `config/letterrush.json` and datapacks |
 
-Permission par défaut : niveau op **2** (`permission_level` dans la config).
+Default permission: op level **2** (`permission_level` in config).
 
 ## Gameplay
 
-1. Une lettre **A–Z** est tirée au sort (titre + chat).
-2. Un **boss bar** affiche le compte à rebours.
-3. Le premier joueur qui **ramasse** (pickup réel d’une entité item) un objet dont le **nom anglais** commence par cette lettre gagne.
-4. Les objets **renommés** à l'enclume comptent si le nom custom commence par la lettre.
-5. Le gagnant reçoit une **récompense aléatoire pondérée** (roulette HUD optionnelle).
+1. A letter **A–Z** is rolled (title + chat).
+2. A **boss bar** shows the countdown.
+3. The first player to **pick up** (real item-entity pickup) an item whose **English name** starts with that letter wins.
+4. Anvil-**renamed** items count if the custom name starts with the letter.
+5. The winner gets a **weighted random reward** (optional roulette HUD).
 
-Si personne ne gagne avant la fin du timer : message *Time's up!*
+If nobody wins before the timer ends: *Time's up!*
 
 ## Configuration
 
-Fichier : `config/letterrush.json` (créé au premier démarrage).
+File: `config/letterrush.json` (created on first launch).
 
 - `default_duration_seconds`, `permission_level`, `letters`
-- `rewards` : liste `{ "weight", "type": "item"|"experience"|"command", ... }`
-- `messages` : clés optionnelles avec placeholders `{0}`, `{1}`, …
+- `rewards`: list of `{ "weight", "type": "item"|"experience"|"command", ... }`
+- `messages`: optional keys with `{0}`, `{1}`, … placeholders
 - `play_sounds`, `winner_particles`, `roulette_animation`, `roulette_ticks`
 
-### Datapack (récompenses)
+### Datapack (rewards)
 
-Placez des fichiers JSON sous :
+Place JSON files under:
 
-`data/<namespace>/letterrush/rewards/mon_fichier.json`
+`data/<namespace>/letterrush/rewards/my_file.json`
 
 ```json
 {
@@ -63,9 +66,9 @@ Placez des fichiers JSON sous :
 }
 ```
 
-Si au moins une récompense datapack est chargée (`/reload`), elle **remplace** la liste du fichier config.
+If at least one datapack reward is loaded (`/reload`), it **replaces** the config file list.
 
-Modèle JSON (à copier dans votre datapack, **pas** chargé automatiquement) : [`docs/examples/datapack_rewards.example.json`](docs/examples/datapack_rewards.example.json).
+JSON template (copy into your datapack; **not** loaded automatically): [`docs/examples/datapack_rewards.example.json`](docs/examples/datapack_rewards.example.json).
 
 ## Build
 
@@ -73,23 +76,43 @@ Modèle JSON (à copier dans votre datapack, **pas** chargé automatiquement) : 
 ./gradlew :fabric:remapJar :neoforge:remapJar
 ```
 
-| Cible | JDK | Commande |
-|-------|-----|----------|
-| **1.21.x** (profil Gradle courant ou script sans 26) | **21** | `JAVA_HOME=…21 ./scripts/build-all-versions.sh` |
-| **26.x** (`gradle/versions/26.*.properties`) | **25** | `JAVA_HOME=…25 BUILD_26=true ./scripts/build-all-versions.sh` |
+| Target | JDK | Command |
+|--------|-----|---------|
+| **1.21.11** | **21+** | included in `./scripts/build-all-versions.sh` |
+| **26.1.2 / 26.2 / 26.3** | **25** | same script (`JAVA_HOME` → JDK 25) |
 
-Build Gradle d’une version : `cat gradle/versions/common.properties gradle/versions/<mc>.properties > gradle.properties` puis `./gradlew …` avec le JDK correspondant (21 pour 1.21.*, 25 pour 26.*).
+Single-version Gradle build: `cat gradle/versions/common.properties gradle/versions/<mc>.properties > gradle.properties` then `./gradlew …` with the matching JDK.
 
 ## Structure
 
-- `common/` — logique serveur, config, récompenses, réseau
-- `fabric/` — entrée Fabric + mixin pickup
-- `neoforge/` — entrée NeoForge + événement pickup
+- `common/` — server logic, config, rewards, networking
+- `fabric/` — Fabric entry + pickup mixin
+- `neoforge/` — NeoForge entry + pickup event
+
+## Branding
+
+- Logo: [`docs/branding/logo.png`](docs/branding/logo.png)
+- Banner: [`docs/branding/banner.png`](docs/branding/banner.png)
+- In-game / Modrinth icon: `common/src/main/resources/assets/letterrush/icon.png`
 
 ## Modrinth
 
-Guide de publication : [MODRINTH.md](MODRINTH.md). Icône du mod : `assets/letterrush/icon.png`.
+Publishing guide: [MODRINTH.md](MODRINTH.md).
 
-## Licence
+## License
 
-MIT — voir [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
+
+---
+
+## Français
+
+Mini-jeu multijoueur **letter race** pour Minecraft **1.21.11**, **26.1.2**, **26.2**, **26.3** (survie, sans dimension custom). Compatible **Fabric** et **NeoForge**.
+
+- Builds : `./scripts/build-all-versions.sh` → `release/<version>/`
+- Chaque jar Fabric cible **une** version MC (ex. 1.21.11 → `>=1.21.11 <1.21.12`)
+- Commandes : `/letterrush start|stop|status|reload`
+- Le premier joueur qui **ramasse** un objet dont le **nom anglais** commence par la lettre tirée gagne
+- Config : `config/letterrush.json` ; récompenses aussi via datapack
+
+Détails techniques et build 26.x : sections anglaises ci-dessus et [docs/MINECRAFT-26.md](docs/MINECRAFT-26.md).

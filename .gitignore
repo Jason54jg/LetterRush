@@ -1,4 +1,5 @@
 .gradle/
+.gradle-home/
 build/
 out/
 run/
@@ -7,3 +8,4 @@ run/
 .vscode/
 *.log
 dev/
+release/

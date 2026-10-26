@@ -1,26 +1,24 @@
-LetterRush 1.0.0 — toutes les versions stables 1.21.x
-=====================================================
+LetterRush 1.0.0 — supported Minecraft versions
+===============================================
 
-Dossiers release/1.21.1 … release/1.21.11 (11 versions Minecraft).
-Chaque jar Fabric est limité à sa version MC (ex. 1.21.11 → >=1.21.11 <1.21.12). Versions antérieures : jar dans release/1.21.1 … release/1.21.10.
+Supported releases (folders under release/):
+  1.21.11
+  26.1.2
+  26.2
+  26.3
 
-Fabric : un jar par version (letterrush-1.0.0-<mc>+fabric.jar).
+Each Fabric jar is pinned to its MC version
+  (e.g. 1.21.11 → >=1.21.11 <1.21.12).
 
-NeoForge : jar natif quand la toolchain Gradle le permet ; sinon jar
-« substitute » d’une version voisine (même série 21.x NeoForge).
-Les substitutes gardent le nom du jar source (ex. 1.21.6/ contient
-letterrush-1.0.0-1.21.5+neoforge.jar).
+Fabric: letterrush-1.0.0-<mc>+fabric.jar
+NeoForge: letterrush-1.0.0-<mc>+neoforge.jar (all supported versions)
 
-Substitutes NeoForge :
-  1.21.2  ← 1.21.3
-  1.21.6  ← 1.21.5
-  1.21.7  ← 1.21.8
-  1.21.9  ← 1.21.8
-  1.21.10 ← 1.21.8
-  1.21.11 ← 1.21.8
+Rebuild (JDK 25 for 26.x; JDK 21+ OK for 1.21.11):
+  ./scripts/build-all-versions.sh
+  powershell -File scripts/build-all-versions.ps1
 
-Minecraft 26.x (expérimental) :
-  BUILD_26=true ./scripts/build-all-versions.sh  (JDK 25)
-  Dossiers release/26.1 … release/26.3 — voir docs/MINECRAFT-26.md
+26.x details: docs/MINECRAFT-26.md
 
-Rebuild : ./scripts/build-all-versions.sh
+--- Français ---
+Versions supportées : 1.21.11, 26.1.2, 26.2, 26.3.
+Rebuild : scripts/build-all-versions.sh (ou .ps1).

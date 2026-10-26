@@ -1,17 +1,20 @@
 {
   "letterrush.bossbar.title": "Letter Rush — Trouvez un objet en \"%s\"",
+  "letterrush.bossbar.running": "Letter Rush — \"%s\" — %s",
   "letterrush.bossbar.time_up": "Letter Rush — Temps écoulé !",
   "letterrush.title.letter": "Lettre : %s",
   "letterrush.title.subtitle": "Ramassez un objet dont le nom anglais commence par cette lettre !",
   "letterrush.title.winner": "%s gagne !",
   "letterrush.title.reward": "Récompense : %s",
-  "letterrush.chat.start": "Letter Rush lancé ! Trouvez un objet en \"%s\" (%ss).",
+  "letterrush.chat.start": "Letter Rush lancé ! Trouvez un objet en \"%s\".",
   "letterrush.chat.winner": "%s a gagné Letter Rush avec \"%s\" ! Récompense : %s",
   "letterrush.chat.time_up": "Temps écoulé ! Personne n'a trouvé d'objet en \"%s\".",
   "letterrush.chat.stopped": "Manche Letter Rush arrêtée.",
   "letterrush.chat.already_running": "Une manche Letter Rush est déjà en cours.",
   "letterrush.chat.not_running": "Aucune manche Letter Rush en cours.",
-  "letterrush.chat.status": "Letter Rush — lettre \"%s\", %ss restantes.",
+  "letterrush.chat.status": "Letter Rush — lettre \"%s\", écoulé %s.",
   "letterrush.chat.reloaded": "Configuration Letter Rush rechargée.",
-  "letterrush.roulette.spinning": "La roue des récompenses tourne..."
+  "letterrush.roulette.title": "Roulette des récompenses",
+  "letterrush.roulette.spinning": "La roue des récompenses tourne...",
+  "letterrush.roulette.winner": "Récompense : %s"
 }

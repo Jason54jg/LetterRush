@@ -7,23 +7,31 @@ import io.github.jason54.letterrush.LetterRush;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.text.Text;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Resolves item display names in English so letter matching is locale-independent.
  */
 public final class EnglishItemNames {
     private static Map<String, String> englishByKey;
+    /** Uppercase A–Z letters that have at least one registered item name. */
+    private static Set<Character> lettersWithItems;
     private static final Identifier EN_US = Identifier.of("minecraft", "lang/en_us.json");
 
     private EnglishItemNames() {
@@ -31,6 +39,7 @@ public final class EnglishItemNames {
 
     public static void invalidateCache() {
         englishByKey = null;
+        lettersWithItems = null;
     }
 
     private static void ensureLoaded(MinecraftServer server) {
@@ -96,6 +105,69 @@ public final class EnglishItemNames {
             return false;
         }
         return Character.toUpperCase(first) == Character.toUpperCase(letter);
+    }
+
+    /**
+     * Letters (A–Z) for which at least one registered item has an English name starting with that letter.
+     */
+    public static Set<Character> lettersWithItems(MinecraftServer server) {
+        if (lettersWithItems != null) {
+            return lettersWithItems;
+        }
+        ensureLoaded(server);
+        Set<Character> found = new TreeSet<>();
+        for (Item item : Registries.ITEM) {
+            ItemStack stack = item.getDefaultStack();
+            if (stack.isEmpty()) {
+                continue;
+            }
+            Character letter = firstLetterOf(getMatchName(server, stack));
+            if (letter != null) {
+                found.add(letter);
+            }
+        }
+        lettersWithItems = Set.copyOf(found);
+        LetterRush.LOGGER.info(
+                "LetterRush item letter index: {} letters covering {} items — {}",
+                lettersWithItems.size(),
+                Registries.ITEM.size(),
+                lettersWithItems
+        );
+        return lettersWithItems;
+    }
+
+    /**
+     * Config letters intersected with letters that have real items. Falls back to all item letters if empty.
+     */
+    public static List<Character> playableLetterPool(MinecraftServer server, List<Character> configured) {
+        Set<Character> available = lettersWithItems(server);
+        List<Character> pool = new ArrayList<>();
+        Set<Character> seen = new HashSet<>();
+        for (Character c : configured) {
+            char upper = Character.toUpperCase(c);
+            if (available.contains(upper) && seen.add(upper)) {
+                pool.add(upper);
+            }
+        }
+        if (pool.isEmpty()) {
+            pool.addAll(available);
+        }
+        return pool;
+    }
+
+    private static Character firstLetterOf(String name) {
+        if (name == null || name.isBlank()) {
+            return null;
+        }
+        String trimmed = name.stripLeading();
+        if (trimmed.isEmpty()) {
+            return null;
+        }
+        char first = trimmed.charAt(0);
+        if (!Character.isLetter(first)) {
+            return null;
+        }
+        return Character.toUpperCase(first);
     }
 
     private static String humanizeToken(String token) {

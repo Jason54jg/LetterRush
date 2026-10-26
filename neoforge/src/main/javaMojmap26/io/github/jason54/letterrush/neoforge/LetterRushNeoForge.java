@@ -2,7 +2,7 @@ package io.github.jason54.letterrush.neoforge;
 
 import io.github.jason54.letterrush.LetterRush;
 import io.github.jason54.letterrush.LetterRushRuntime;
-import io.github.jason54.letterrush.client.RouletteOverlay;
+import io.github.jason54.letterrush.client.RouletteScreen;
 import io.github.jason54.letterrush.game.PickupHooks;
 import io.github.jason54.letterrush.network.RoulettePayload;
 import io.github.jason54.letterrush.reward.DatapackRewardLoader;
@@ -47,7 +47,7 @@ public final class LetterRushNeoForge {
         registrar.playToClient(
                 RoulettePayload.TYPE,
                 RoulettePayload.STREAM_CODEC,
-                (payload, context) -> context.enqueueWork(() -> RouletteOverlay.start(payload))
+                (payload, context) -> context.enqueueWork(() -> RouletteScreen.open(payload))
         );
     }
 

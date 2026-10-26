@@ -6,9 +6,12 @@ def unobfuscated = rootProject.findProperty("unobfuscated") == "true"
 
 if (unobfuscated) {
     sourceSets.main.java.setSrcDirs(["src/main/javaMojmap26"])
-    sourceSets.main.resources.srcDir("src/main/resources")
-    sourceSets.main.resources.exclude("META-INF/neoforge.mods.toml")
-    sourceSets.main.resources.srcDir("src/unobfuscated/resources")
+    // Unobfuscated metadata first. Do NOT SourceDirectorySet.exclude the toml:
+    // that pattern applies to every srcDir and drops the Mojmap copy too.
+    sourceSets.main.resources.setSrcDirs([
+        "src/unobfuscated/resources",
+        "src/main/resources"
+    ])
 }
 
 architectury {
@@ -67,10 +70,11 @@ processResources {
     if (unobfuscated) {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
-    inputs.property "version", project.version
+    def displayVersion = "${rootProject.mod_version}+mc${rootProject.minecraft_version}"
+    inputs.property "version", displayVersion
     inputs.property "neoforge_minecraft_range", rootProject.findProperty("neoforge_minecraft_range") ?: "[1.21.1,1.21.6)"
     filesMatching("META-INF/neoforge.mods.toml") {
-        expand "version": project.version, "minecraft_range": neoforge_minecraft_range
+        expand "version": displayVersion, "minecraft_range": neoforge_minecraft_range
     }
 }
 

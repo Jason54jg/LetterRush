@@ -12,9 +12,12 @@ if (unobfuscated) {
         sourceSets.main.java.exclude("io/github/jason54/letterrush/fabric/LetterRushFabricClient.java")
         sourceSets.main.java.srcDir("src/main/javaMojmap26_early")
     }
-    sourceSets.main.resources.srcDir("src/main/resources")
-    sourceSets.main.resources.exclude("fabric.mod.json")
-    sourceSets.main.resources.srcDir("src/unobfuscated/resources")
+    // Unobfuscated metadata first. Do NOT SourceDirectorySet.exclude("fabric.mod.json"):
+    // that pattern applies to every srcDir and drops the Mojmap copy too.
+    sourceSets.main.resources.setSrcDirs([
+        "src/unobfuscated/resources",
+        "src/main/resources"
+    ])
 }
 
 architectury {
@@ -63,10 +66,12 @@ processResources {
     if (unobfuscated) {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
-    inputs.property "version", project.version
+    // Mod Menu / Fabric UI: prefer SemVer build-metadata (1.0.0+mc26.2), not 1.0.0-26.2+fabric
+    def displayVersion = "${rootProject.mod_version}+mc${rootProject.minecraft_version}"
+    inputs.property "version", displayVersion
     inputs.property "minecraft_compat", rootProject.findProperty("minecraft_compat") ?: ">=1.21.1 <1.21.6"
     filesMatching("fabric.mod.json") {
-        expand "version": project.version, "minecraft_compat": minecraft_compat
+        expand "version": displayVersion, "minecraft_compat": minecraft_compat
     }
 }
 

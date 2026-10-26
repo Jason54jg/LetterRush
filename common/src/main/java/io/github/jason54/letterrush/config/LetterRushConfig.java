@@ -79,6 +79,7 @@ public final class LetterRushConfig {
 
     public static void reload(MinecraftServer server) {
         load(server);
+        io.github.jason54.letterrush.game.EnglishItemNames.invalidateCache();
     }
 
     public static void save() {

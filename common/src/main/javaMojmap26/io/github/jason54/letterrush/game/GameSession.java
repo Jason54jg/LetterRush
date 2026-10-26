@@ -14,25 +14,25 @@ import java.util.UUID;
 public final class GameSession {
     private final MinecraftServer server;
     private final char letter;
-    private final int durationSeconds;
-    private final long endGameTimeMs;
+    private final long startTimeMs;
     private final ServerBossEvent bossBar;
     private final Random random = new Random();
     private boolean finished;
+    private int lastDisplayedElapsed = -1;
 
-    public GameSession(MinecraftServer server, char letter, int durationSeconds) {
+    public GameSession(MinecraftServer server, char letter) {
         this.server = server;
         this.letter = letter;
-        this.durationSeconds = durationSeconds;
-        this.endGameTimeMs = System.currentTimeMillis() + durationSeconds * 1000L;
+        this.startTimeMs = System.currentTimeMillis();
         this.bossBar = new ServerBossEvent(
                 UUID.randomUUID(),
-                Component.translatable("letterrush.bossbar.title", String.valueOf(letter)),
+                bossBarTitle(0),
                 BossEvent.BossBarColor.YELLOW,
                 BossEvent.BossBarOverlay.PROGRESS
         );
         this.bossBar.setDarkenScreen(false);
         this.bossBar.setCreateWorldFog(false);
+        this.bossBar.setProgress(1f);
         syncBossBarPlayers();
         updateBossProgress();
     }
@@ -43,10 +43,6 @@ public final class GameSession {
 
     public char letter() {
         return letter;
-    }
-
-    public int durationSeconds() {
-        return durationSeconds;
     }
 
     public boolean isFinished() {
@@ -61,29 +57,33 @@ public final class GameSession {
         return bossBar;
     }
 
-    public int secondsRemaining() {
-        long remainingMs = endGameTimeMs - System.currentTimeMillis();
-        return (int) Math.max(0, Math.ceil(remainingMs / 1000.0));
-    }
-
-    public boolean isTimeUp() {
-        return System.currentTimeMillis() >= endGameTimeMs;
+    public int secondsElapsed() {
+        long elapsedMs = System.currentTimeMillis() - startTimeMs;
+        return (int) Math.max(0, elapsedMs / 1000L);
     }
 
     public void syncBossBarPlayers() {
-        List<ServerPlayer> players = server.getPlayerList().getPlayers();
-        for (ServerPlayer player : players) {
+        List<ServerPlayer> online = server.getPlayerList().getPlayers();
+        for (ServerPlayer player : online) {
             if (!bossBar.getPlayers().contains(player)) {
                 bossBar.addPlayer(player);
             }
         }
-        bossBar.getPlayers().removeIf(player -> !players.contains(player));
+        for (ServerPlayer player : List.copyOf(bossBar.getPlayers())) {
+            if (!online.contains(player)) {
+                bossBar.removePlayer(player);
+            }
+        }
         updateBossProgress();
     }
 
     public void updateBossProgress() {
-        float progress = durationSeconds <= 0 ? 0f : secondsRemaining() / (float) durationSeconds;
-        bossBar.setProgress(Math.max(0f, Math.min(1f, progress)));
+        int elapsed = secondsElapsed();
+        if (elapsed != lastDisplayedElapsed) {
+            lastDisplayedElapsed = elapsed;
+            bossBar.setName(bossBarTitle(elapsed));
+        }
+        bossBar.setProgress(1f);
     }
 
     public void clearBossBar() {
@@ -96,4 +96,18 @@ public final class GameSession {
     }
 
     public RewardDefinition preselectedReward;
+
+    private Component bossBarTitle(int elapsedSeconds) {
+        return Component.translatable(
+                "letterrush.bossbar.running",
+                String.valueOf(letter),
+                formatElapsed(elapsedSeconds)
+        );
+    }
+
+    public static String formatElapsed(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
 }

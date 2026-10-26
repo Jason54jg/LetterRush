@@ -1,16 +1,15 @@
 package io.github.jason54.letterrush.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import io.github.jason54.letterrush.LetterRush;
 import io.github.jason54.letterrush.config.LetterRushConfig;
 import io.github.jason54.letterrush.game.GameManager;
+import io.github.jason54.letterrush.game.GameSession;
 import io.github.jason54.letterrush.util.CommandPermissions;
 import io.github.jason54.letterrush.util.LetterRushText;
-import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public final class LetterRushCommands {
@@ -22,9 +21,7 @@ public final class LetterRushCommands {
                 CommandManager.literal("letterrush")
                         .requires(LetterRushCommands::hasPermission)
                         .then(CommandManager.literal("start")
-                                .executes(ctx -> start(ctx, LetterRushConfig.get().defaultDurationSeconds))
-                                .then(CommandManager.argument("duration", IntegerArgumentType.integer(5, 3600))
-                                        .executes(ctx -> start(ctx, IntegerArgumentType.getInteger(ctx, "duration")))))
+                                .executes(LetterRushCommands::start))
                         .then(CommandManager.literal("stop")
                                 .executes(LetterRushCommands::stop))
                         .then(CommandManager.literal("status")
@@ -32,13 +29,14 @@ public final class LetterRushCommands {
                         .then(CommandManager.literal("reload")
                                 .executes(LetterRushCommands::reload))
         );
+        LetterRush.LOGGER.info("Registered /letterrush (permission_level={})", LetterRushConfig.get().permissionLevel);
     }
 
     private static boolean hasPermission(ServerCommandSource source) {
         return CommandPermissions.hasLevel(source, LetterRushConfig.get().permissionLevel);
     }
 
-    private static int start(CommandContext<ServerCommandSource> ctx, int duration) {
+    private static int start(CommandContext<ServerCommandSource> ctx) {
         ServerCommandSource source = ctx.getSource();
         GameManager manager = GameManager.get(source.getServer());
         if (manager.isRunning()) {
@@ -46,7 +44,7 @@ public final class LetterRushCommands {
                     .formatted(Formatting.RED), true);
             return 0;
         }
-        manager.start(source.getServer(), duration);
+        manager.start(source.getServer());
         return 1;
     }
 
@@ -72,12 +70,12 @@ public final class LetterRushCommands {
                     .formatted(Formatting.GRAY), false);
             return 0;
         }
-        var session = manager.session();
+        GameSession session = manager.session();
         source.sendFeedback(() -> LetterRushText.message(
                 "status",
                 "letterrush.chat.status",
                 String.valueOf(session.letter()),
-                session.secondsRemaining()
+                GameSession.formatElapsed(session.secondsElapsed())
         ).formatted(Formatting.AQUA), false);
         return 1;
     }
