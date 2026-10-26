@@ -6,11 +6,13 @@ Structure `release/<version_minecraft>/` :
 
 | MC | Fabric | NeoForge |
 |----|--------|----------|
-| 1.21.1 | `release/1.21.1/letterrush-1.0.0-1.21.1+fabric.jar` | `…+neoforge.jar` |
-| 1.21.2 | `release/1.21.2/letterrush-1.0.0-1.21.2+fabric.jar` | utiliser `letterrush-1.0.0-1.21.3+neoforge.jar` (substitute) |
-| 1.21.3 | `release/1.21.3/…` | oui |
-| 1.21.4 | `release/1.21.4/…` | oui |
-| 1.21.5 | `release/1.21.5/…` | oui (build le plus récent) |
+| 1.21.1 | `release/1.21.1/letterrush-1.0.0-1.21.1+fabric.jar` | `…+neoforge.jar` (natif) |
+| 1.21.2 | `release/1.21.2/…+fabric.jar` | `letterrush-1.0.0-1.21.3+neoforge.jar` (substitute) |
+| 1.21.3–1.21.5 | `release/<mc>/…+fabric.jar` | natif |
+| 1.21.6 | Fabric natif | substitute depuis **1.21.5** |
+| 1.21.7 | Fabric natif | substitute depuis **1.21.8** |
+| 1.21.8 | natif | natif |
+| 1.21.9–1.21.11 | Fabric natif | substitute depuis **1.21.8** |
 
 Icône : `common/src/main/resources/assets/letterrush/icon.png`
 

@@ -8,6 +8,7 @@ import io.github.jason54.letterrush.reward.RewardDefinition;
 import io.github.jason54.letterrush.reward.RewardExecutor;
 import io.github.jason54.letterrush.reward.RewardRoller;
 import io.github.jason54.letterrush.util.LetterRushText;
+import io.github.jason54.letterrush.util.ServerPlayerAccess;
 import io.github.jason54.letterrush.util.TitleHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -81,7 +82,7 @@ public final class GameManager {
         if (!isRunning() || stack.isEmpty()) {
             return;
         }
-        MinecraftServer server = player.getServer();
+        MinecraftServer server = ServerPlayerAccess.server(player);
         if (server == null) {
             return;
         }
@@ -123,10 +124,10 @@ public final class GameManager {
     private void handleWin(MinecraftServer server, ServerPlayerEntity winner, String itemName, RewardDefinition reward, char letter) {
         RewardExecutor.grant(server, winner, reward);
         if (LetterRushConfig.get().playSounds) {
-            ServerWorld winnerWorld = winner.getServerWorld();
+            ServerWorld winnerWorld = ServerPlayerAccess.world(winner);
             winnerWorld.playSound(null, winner.getBlockPos(), SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundCategory.PLAYERS, 1f, 1f);
             server.getPlayerManager().getPlayerList().forEach(p ->
-                    p.getServerWorld().playSound(null, p.getBlockPos(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.6f, 1.2f));
+                    ServerPlayerAccess.world(p).playSound(null, p.getBlockPos(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.6f, 1.2f));
         }
         if (LetterRushConfig.get().winnerParticles) {
             spawnWinnerParticles(winner);
@@ -170,7 +171,7 @@ public final class GameManager {
         TitleHelper.showTimeUp(server);
         if (LetterRushConfig.get().playSounds) {
             server.getPlayerManager().getPlayerList().forEach(p ->
-                    p.getServerWorld().playSound(null, p.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM.value(), SoundCategory.PLAYERS, 0.8f, 0.5f));
+                    ServerPlayerAccess.world(p).playSound(null, p.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM.value(), SoundCategory.PLAYERS, 0.8f, 0.5f));
         }
     }
 
@@ -188,7 +189,7 @@ public final class GameManager {
     }
 
     private void spawnWinnerParticles(ServerPlayerEntity winner) {
-        ServerWorld world = winner.getServerWorld();
+        ServerWorld world = ServerPlayerAccess.world(winner);
         world.spawnParticles(
                 ParticleTypes.TOTEM_OF_UNDYING,
                 winner.getX(),

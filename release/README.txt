@@ -1,20 +1,21 @@
-LetterRush 1.0.0 — jars par version Minecraft
-============================================
+LetterRush 1.0.0 — toutes les versions stables 1.21.x
+=====================================================
 
-Chaque dossier correspond à la version MC indiquée.
+Dossiers release/1.21.1 … release/1.21.11 (11 versions Minecraft).
 
-Fabric : letterrush-1.0.0-<mc>+fabric.jar
-NeoForge : letterrush-1.0.0-<mc>+neoforge.jar
+Fabric : un jar par version (letterrush-1.0.0-<mc>+fabric.jar).
 
-Note 1.21.2 NeoForge :
-  Le jar letterrush-1.0.0-1.21.3+neoforge.jar est fourni en substitute
-  (pas de chaîne NeoForge 1.21.2 stable dans notre toolchain Gradle).
+NeoForge : jar natif quand la toolchain Gradle le permet ; sinon jar
+« substitute » d’une version voisine (même série 21.x NeoForge).
+Les substitutes gardent le nom du jar source (ex. 1.21.6/ contient
+letterrush-1.0.0-1.21.5+neoforge.jar).
 
-Versions :
-  1.21.1 — Fabric + NeoForge
-  1.21.2 — Fabric (+ NeoForge substitute 1.21.3)
-  1.21.3 — Fabric + NeoForge
-  1.21.4 — Fabric + NeoForge
-  1.21.5 — Fabric + NeoForge (version la plus récente buildée)
+Substitutes NeoForge :
+  1.21.2  ← 1.21.3
+  1.21.6  ← 1.21.5
+  1.21.7  ← 1.21.8
+  1.21.9  ← 1.21.8
+  1.21.10 ← 1.21.8
+  1.21.11 ← 1.21.8
 
-Rebuild all : ./scripts/build-all-versions.sh
+Rebuild : ./scripts/build-all-versions.sh

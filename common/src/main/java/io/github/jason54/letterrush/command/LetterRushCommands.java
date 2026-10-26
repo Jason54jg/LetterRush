@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import io.github.jason54.letterrush.config.LetterRushConfig;
 import io.github.jason54.letterrush.game.GameManager;
+import io.github.jason54.letterrush.util.CommandPermissions;
 import io.github.jason54.letterrush.util.LetterRushText;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
@@ -34,7 +35,7 @@ public final class LetterRushCommands {
     }
 
     private static boolean hasPermission(ServerCommandSource source) {
-        return source.hasPermissionLevel(LetterRushConfig.get().permissionLevel);
+        return CommandPermissions.hasLevel(source, LetterRushConfig.get().permissionLevel);
     }
 
     private static int start(CommandContext<ServerCommandSource> ctx, int duration) {

@@ -1,5 +1,6 @@
 package io.github.jason54.letterrush.game;
 
+import io.github.jason54.letterrush.util.ServerPlayerAccess;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -11,9 +12,10 @@ public final class PickupHooks {
     }
 
     public static void onPickup(ServerPlayerEntity player, ItemStack stack) {
-        if (player.getServer() == null || stack.isEmpty()) {
+        var server = ServerPlayerAccess.server(player);
+        if (server == null || stack.isEmpty()) {
             return;
         }
-        GameManager.get(player.getServer()).onPlayerPickup(player, stack.copy());
+        GameManager.get(server).onPlayerPickup(player, stack.copy());
     }
 }

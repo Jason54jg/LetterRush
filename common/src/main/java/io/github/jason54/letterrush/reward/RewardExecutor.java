@@ -1,6 +1,9 @@
 package io.github.jason54.letterrush.reward;
 
+import com.mojang.brigadier.ParseResults;
+import com.mojang.brigadier.StringReader;
 import io.github.jason54.letterrush.LetterRush;
+import io.github.jason54.letterrush.util.CommandPermissions;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -50,13 +53,14 @@ public final class RewardExecutor {
         if (trimmed.startsWith("/")) {
             trimmed = trimmed.substring(1);
         }
-        ServerCommandSource source = server.getCommandSource()
-                .withLevel(4)
+        ServerCommandSource source = CommandPermissions.withLevel(server.getCommandSource(), 4)
                 .withSilent()
                 .withEntity(winner)
                 .withPosition(new Vec3d(winner.getX(), winner.getY(), winner.getZ()));
         try {
-            server.getCommandManager().executeWithPrefix(source, trimmed);
+            var dispatcher = server.getCommandManager().getDispatcher();
+            ParseResults<ServerCommandSource> parsed = dispatcher.parse(new StringReader(trimmed), source);
+            server.getCommandManager().execute(parsed, trimmed);
         } catch (Exception e) {
             LetterRush.LOGGER.error("Failed to run reward command for {}", winner.getName().getString(), e);
         }

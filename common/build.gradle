@@ -2,6 +2,18 @@ architectury {
     common(rootProject.enabled_platforms.split(","))
 }
 
+def mcPatch = rootProject.minecraft_version.split("\\.")[2].toInteger()
+if (mcPatch >= 11) {
+    sourceSets.main.java.srcDir "src/main/java11plus"
+    sourceSets.main.java.srcDir "src/main/java9plus"
+} else if (mcPatch >= 9) {
+    sourceSets.main.java.srcDir "src/main/java9plus"
+    sourceSets.main.java.srcDir "src/main/javaCommandLegacy"
+} else {
+    sourceSets.main.java.srcDir "src/main/java8legacy"
+    sourceSets.main.java.srcDir "src/main/javaCommandLegacy"
+}
+
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modCompileOnly "dev.architectury:architectury:$rootProject.architectury_api_version"

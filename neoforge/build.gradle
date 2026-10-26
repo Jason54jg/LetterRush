@@ -8,6 +8,7 @@ architectury {
 }
 
 loom {
+    enableModProvidedJavadoc.set(false)
     mods {
         main {
             sourceSet sourceSets.main
