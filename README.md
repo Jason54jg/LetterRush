@@ -73,7 +73,12 @@ Modèle JSON (à copier dans votre datapack, **pas** chargé automatiquement) : 
 ./gradlew :fabric:remapJar :neoforge:remapJar
 ```
 
-Java **21** requis.
+| Cible | JDK | Commande |
+|-------|-----|----------|
+| **1.21.x** (profil Gradle courant ou script sans 26) | **21** | `JAVA_HOME=…21 ./scripts/build-all-versions.sh` |
+| **26.x** (`gradle/versions/26.*.properties`) | **25** | `JAVA_HOME=…25 BUILD_26=true ./scripts/build-all-versions.sh` |
+
+Build Gradle d’une version : `cat gradle/versions/common.properties gradle/versions/<mc>.properties > gradle.properties` puis `./gradlew …` avec le JDK correspondant (21 pour 1.21.*, 25 pour 26.*).
 
 ## Structure
 
