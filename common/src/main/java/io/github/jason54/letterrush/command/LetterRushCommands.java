@@ -44,10 +44,15 @@ public final class LetterRushCommands {
                     .formatted(Formatting.RED), true);
             return 0;
         }
-        if (!manager.start(source.getServer())) {
-            source.sendFeedback(() -> LetterRushText.message("start_failed", "letterrush.chat.start_failed")
-                    .formatted(Formatting.RED), true);
-            return 0;
+        try {
+            if (!manager.start(source.getServer())) {
+                source.sendFeedback(() -> LetterRushText.message("start_failed", "letterrush.chat.start_failed")
+                        .formatted(Formatting.RED), true);
+                return 0;
+            }
+        } catch (RuntimeException e) {
+            LetterRush.LOGGER.error("Failed to start LetterRush", e);
+            throw e;
         }
         return 1;
     }
