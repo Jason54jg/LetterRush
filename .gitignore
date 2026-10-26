@@ -7,5 +7,6 @@ run/
 .idea/
 .vscode/
 *.log
+*.hprof
 dev/
 release/
