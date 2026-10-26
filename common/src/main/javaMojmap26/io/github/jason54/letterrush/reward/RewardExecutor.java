@@ -30,6 +30,10 @@ public final class RewardExecutor {
         }
     }
 
+    /**
+     * Gives the player the reward item with a count of at least one, dropping inventory overflow.
+     * Malformed or unregistered item IDs and air items are ignored.
+     */
     private static void giveItem(ServerPlayer player, RewardDefinition reward) {
         Identifier id = Identifier.tryParse(reward.item);
         if (id == null) {

@@ -27,6 +27,13 @@ public final class DatapackRewardLoader {
         return datapackRewards;
     }
 
+    /**
+     * Replaces the cached rewards with non-null entries of positive weight from
+     * {@code letterrush/rewards} JSON files, skipping paths containing {@code /example}.
+     * Read or parse failures stop processing that file but retain entries already accepted.
+     * An empty result makes {@link #activeRewards()} fall back to the config list.
+     * Resource discovery failures propagate without replacing the cached rewards.
+     */
     public static void reload(ResourceManager manager) {
         List<RewardDefinition> merged = new ArrayList<>();
         Map<Identifier, Resource> found = manager.listResources("letterrush/rewards", id -> id.getPath().endsWith(".json"));
