@@ -1,14 +1,14 @@
-# Datapacks (récompenses)
+# Datapacks (rewards)
 
-Vous pouvez définir des récompenses via datapack au lieu (ou en remplacement) de la liste dans `config/letterrush.json`.
+You can define rewards via datapack instead of (or replacing) the list in `config/letterrush.json`.
 
-## Emplacement
+## Location
 
 ```
-data/<namespace>/letterrush/rewards/<fichier>.json
+data/<namespace>/letterrush/rewards/<file>.json
 ```
 
-Exemple : `data/monpack/letterrush/rewards/bonus.json`
+Example: `data/mypack/letterrush/rewards/bonus.json`
 
 ## Format
 
@@ -34,13 +34,13 @@ Exemple : `data/monpack/letterrush/rewards/bonus.json`
 }
 ```
 
-Mêmes types que la config : `item`, `experience`, `command`.
+Same types as config: `item`, `experience`, `command`.
 
-## Comportement
+## Behavior
 
-- Dès qu’**au moins une** récompense datapack est chargée (`/reload` ou `/letterrush reload`), la liste datapack **remplace** celle du fichier config.
-- Modèle d’exemple dans le dépôt : [`docs/examples/datapack_rewards.example.json`](https://github.com/Jason54jg/LetterRush/blob/main/docs/examples/datapack_rewards.example.json) *(non chargé automatiquement — à copier dans votre datapack)*.
+- As soon as **at least one** datapack reward is loaded (`/reload` or `/letterrush reload`), the datapack list **replaces** the config file list.
+- Example template in the repo: [`docs/examples/datapack_rewards.example.json`](https://github.com/Jason54jg/LetterRush/blob/main/docs/examples/datapack_rewards.example.json) *(not loaded automatically — copy it into your datapack)*.
 
-## Astuce
+## Tip
 
-Pour tester : placez le JSON dans un datapack monde, `/reload`, puis `/letterrush start`.
+To test: put the JSON in a world datapack, `/reload`, then `/letterrush start`.

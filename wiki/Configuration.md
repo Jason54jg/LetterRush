@@ -1,24 +1,23 @@
 # Configuration
 
-Fichier : `config/letterrush.json` (créé au premier lancement du serveur).
+File: `config/letterrush.json` (created on first server launch).
 
-Recharge sans redémarrer : `/letterrush reload`.
+Reload without restart: `/letterrush reload`.
 
-## Options principales
+## Main options
 
-| Clé | Défaut | Description |
-|-----|--------|-------------|
-| `default_duration_seconds` | `60` | Durée d’une manche (`start` sans argument). Min. 5 |
-| `permission_level` | `2` | Niveau de permission des commandes |
-| `letters` | `"ABCDEFGHIJKLMNOPQRSTUVWXYZ"` | Lettres autorisées pour le tirage |
-| `play_sounds` | `true` | Sons |
-| `winner_particles` | `true` | Particules de victoire |
-| `roulette_animation` | `true` | HUD roulette côté client |
-| `roulette_ticks` | `60` | Durée animation (ticks). Min. 10 |
-| `messages` | `{}` | Surcharges de messages (placeholders `{0}`, `{1}`, …) |
-| `rewards` | *(liste par défaut)* | Récompenses pondérées |
+| Key | Default | Description |
+|-----|---------|-------------|
+| `permission_level` | `2` | Command permission level |
+| `letters` | `"ABCDEFGHIJKLMNOPQRSTUVWXYZ"` | Letters allowed for the roll |
+| `play_sounds` | `true` | Sounds |
+| `winner_particles` | `true` | Winner particles |
+| `roulette_animation` | `true` | Client roulette HUD |
+| `roulette_ticks` | `60` | Animation length (ticks). Min. 10 |
+| `messages` | `{}` | Message overrides (placeholders `{0}`, `{1}`, …) |
+| `rewards` | *(default list)* | Weighted rewards |
 
-## Récompenses (config)
+## Rewards (config)
 
 ```json
 {
@@ -31,20 +30,20 @@ Recharge sans redémarrer : `/letterrush reload`.
 }
 ```
 
-Types :
+Types:
 
-| `type` | Champs utiles |
+| `type` | Useful fields |
 |--------|----------------|
 | `item` | `item`, `count` |
 | `experience` | `amount` |
-| `command` | `command` (exécutée côté serveur ; `@p` = gagnant) |
+| `command` | `command` (run on server; `@p` = winner) |
 
-`weight` : plus la valeur est haute, plus la récompense a de chances d’être tirée.
+`weight`: higher values are more likely to be picked.
 
-## Récompenses par défaut
+## Default rewards
 
-| Affichage | Poids | Type |
-|-----------|-------|------|
+| Display | Weight | Type |
+|---------|--------|------|
 | 3 Diamonds | 15 | item |
 | Golden Apple | 10 | item |
 | 250 XP | 25 | experience |
@@ -52,8 +51,8 @@ Types :
 | Nether Star | 5 | item |
 | Firework Show | 8 | command |
 
-## Messages custom
+## Custom messages
 
-Dans `messages`, vous pouvez redéfinir les textes (clés internes du mod). Utilisez `{0}`, `{1}`, … pour les arguments (lettre, joueur, etc.).
+In `messages`, you can override mod texts. Use `{0}`, `{1}`, … for arguments (letter, player, etc.).
 
-Si un datapack charge au moins une récompense LetterRush, **il remplace** la liste `rewards` du fichier config — voir [Datapacks](Datapacks).
+If a datapack loads at least one LetterRush reward, **it replaces** the config `rewards` list — see [Datapacks](Datapacks).

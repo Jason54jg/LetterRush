@@ -2,12 +2,12 @@
 
 ---
 
-* Joueur
+* Player
   * [Installation](Installation)
   * [Gameplay](Gameplay)
-  * [Commandes](Commandes)
+  * [Commands](Commands)
 
-* Serveur
+* Server
   * [Configuration](Configuration)
   * [Datapacks](Datapacks)
 

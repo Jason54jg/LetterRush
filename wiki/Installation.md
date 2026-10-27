@@ -1,33 +1,33 @@
 # Installation
 
-## Prérequis
+## Requirements
 
-| Loader | Dépendances |
-|--------|-------------|
+| Loader | Dependencies |
+|--------|--------------|
 | **Fabric** | Fabric Loader + [Fabric API](https://modrinth.com/mod/fabric-api) + [Architectury API](https://modrinth.com/mod/architectury-api) *(1.21.11)* |
-| **NeoForge** | NeoForge **21.11.x** (pour MC 1.21.11) + Architectury API *(1.21.11)* |
+| **NeoForge** | NeoForge **21.11.x** (for MC 1.21.11) + Architectury API *(1.21.11)* |
 
-Sur les branches **26.x**, suivez les notes de [Versions & build](Versions).
+On **26.x** builds, see [Versions & build](Versions).
 
-## Téléchargement
+## Download
 
-1. **Modrinth** (recommandé, dès publication) : [letterrush](https://modrinth.com/project/letterrush)
-2. **GitHub Actions / Releases** : artefacts de build du dépôt
-3. **Build local** : voir [Versions & build](Versions)
+1. **Modrinth** (recommended, once published): [letterrush](https://modrinth.com/project/letterrush)
+2. **GitHub Actions / Releases**: build artifacts from the repo
+3. **Local build**: see [Versions & build](Versions)
 
-Placez le jar **Fabric** *ou* **NeoForge** correspondant à votre version de Minecraft dans le dossier `mods/`.
+Put the **Fabric** *or* **NeoForge** jar matching your Minecraft version into `mods/`.
 
-> Chaque jar Fabric cible **une** version MC précise (ex. 1.21.11 → `>=1.21.11 <1.21.12`). Ne mélangez pas les versions.
+> Each Fabric jar targets **one** MC version (e.g. 1.21.11 → `>=1.21.11 <1.21.12`). Do not mix versions.
 
-## Côté serveur / client
+## Server / client
 
-- Logique principale **serveur** (commandes, manche, récompenses)
-- Overlay roulette côté **client** (si activé dans la config)
+- Core logic runs on the **server** (commands, rounds, rewards)
+- Roulette overlay is **client-side** (if enabled in config)
 
-Installez le mod sur le serveur **et** sur les clients pour l’animation de roulette. Sans le mod client, le jeu fonctionne quand même (récompense + messages serveur).
+Install the mod on the server **and** on clients for the roulette animation. Without the client mod, the game still works (reward + server messages).
 
-## Vérification rapide
+## Quick check
 
-1. Démarrez le serveur / le monde
-2. Un fichier `config/letterrush.json` est créé au premier lancement
-3. En jeu (op niveau 2 par défaut) : `/letterrush start`
+1. Start the server / world
+2. `config/letterrush.json` is created on first launch
+3. In-game (op level 2 by default): `/letterrush start`
