@@ -1,37 +1,37 @@
 # LetterRush
 
-Multiplayer Minecraft **letter race** mini-game: a letter A–Z is rolled, and the first player to **pick up** an item whose **English name** starts with that letter wins a reward.
+Multiplayer **letter race** mini-game for Minecraft. A letter **A–Z** is rolled; the first player to **pick up** an item whose **English name** starts with that letter wins a reward.
+
+![LetterRush banner](https://raw.githubusercontent.com/Jason54jg/LetterRush/main/docs/branding/banner.png)
 
 | | |
 |---|---|
 | **Versions** | 1.21.11 · 26.1.2 · 26.2 · 26.3 |
 | **Loaders** | Fabric · NeoForge |
 | **License** | MIT |
-| **Modrinth** | [modrinth.com/project/letterrush](https://modrinth.com/project/letterrush) *(coming soon)* |
-| **GitHub** | [Jason54jg/LetterRush](https://github.com/Jason54jg/LetterRush) |
-| **Docs** | [jason54jg.github.io/LetterRush](https://jason54jg.github.io/LetterRush/) |
 
-![LetterRush banner](https://raw.githubusercontent.com/Jason54jg/LetterRush/main/docs/branding/banner.png)
-
-## At a glance
+## How it works
 
 1. An op runs `/letterrush start`
-2. A letter appears (title + chat) with a live **boss bar** (elapsed time)
-3. The first valid pick-up wins → weighted random reward (optional roulette HUD)
+2. A letter appears (title + chat) with a live **boss bar**
+3. First valid pick-up wins → weighted random reward (optional roulette HUD)
 
-No custom dimension: play in normal **survival**.
+Play in normal **survival** — no custom dimension.
 
-## Pages
+## Documentation
 
-- [Installation](Installation) — jars, dependencies, versions
-- [Gameplay](Gameplay) — rules, item names, round end
-- [Commands](Commands) — `/letterrush`
-- [Configuration](Configuration) — `config/letterrush.json`
-- [Datapacks](Datapacks) — rewards via datapack
-- [Versions & build](Versions) — CI, JDK, scripts
+| Page | What you’ll find |
+|------|------------------|
+| [Installation](Installation) | Jars, dependencies, server & client |
+| [Gameplay](Gameplay) | Rules, what counts as a win |
+| [Commands](Commands) | `/letterrush` reference |
+| [Configuration](Configuration) | `config/letterrush.json` |
+| [Datapacks](Datapacks) | Reward datapacks |
+| [Versions & build](Versions) | CI, JDK, build scripts |
 
 ## Links
 
-- Source: [github.com/Jason54jg/LetterRush](https://github.com/Jason54jg/LetterRush)
-- Icon / branding: [`docs/branding`](https://github.com/Jason54jg/LetterRush/tree/main/docs/branding)
-- Modrinth publishing guide: [`MODRINTH.md`](https://github.com/Jason54jg/LetterRush/blob/main/MODRINTH.md)
+- [GitHub](https://github.com/Jason54jg/LetterRush)
+- [Modrinth](https://modrinth.com/project/letterrush) *(coming soon)*
+- [Branding assets](https://github.com/Jason54jg/LetterRush/tree/main/docs/branding)
+- [Modrinth publishing guide](https://github.com/Jason54jg/LetterRush/blob/main/MODRINTH.md)

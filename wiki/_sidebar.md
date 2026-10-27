@@ -1,4 +1,4 @@
-**[LetterRush](Home)**
+* [Home](Home)
 
 ---
 
