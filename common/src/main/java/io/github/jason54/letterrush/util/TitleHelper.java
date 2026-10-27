@@ -29,9 +29,10 @@ public final class TitleHelper {
     }
 
     private static void sendTitle(ServerPlayerEntity player, Text title, Text subtitle) {
-        player.networkHandler.sendPacket(new TitleFadeS2CPacket(10, 60, 20));
-        player.networkHandler.sendPacket(new TitleS2CPacket(title));
-        player.networkHandler.sendPacket(new SubtitleS2CPacket(subtitle));
+        // Use send(packet, null): sendPacket() remaps incorrectly on NeoForge 1.21.11 (NoSuchMethodError).
+        player.networkHandler.send(new TitleFadeS2CPacket(10, 60, 20), null);
+        player.networkHandler.send(new TitleS2CPacket(title), null);
+        player.networkHandler.send(new SubtitleS2CPacket(subtitle), null);
     }
 
     private static void forEachPlayer(MinecraftServer server, java.util.function.Consumer<ServerPlayerEntity> action) {

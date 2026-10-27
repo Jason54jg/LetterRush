@@ -9,7 +9,6 @@ import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -47,25 +46,53 @@ public final class EnglishItemNames {
             return;
         }
         Map<String, String> map = new HashMap<>();
-        ResourceManager manager = server.getResourceManager();
-        try {
-            Optional<Resource> resource = manager.getResource(EN_US);
-            if (resource.isPresent()) {
-                try (InputStreamReader reader = new InputStreamReader(resource.get().getInputStream(), StandardCharsets.UTF_8)) {
-                    JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
-                    for (Map.Entry<String, JsonElement> entry : root.entrySet()) {
-                        if (entry.getValue().isJsonPrimitive()) {
-                            map.put(entry.getKey(), entry.getValue().getAsString());
-                        }
-                    }
-                }
-            } else {
-                LetterRush.LOGGER.warn("Could not load minecraft:lang/en_us.json; falling back to description ids.");
-            }
-        } catch (Exception e) {
-            LetterRush.LOGGER.error("Failed to load English language file", e);
+        // Prefer server resource packs, then classpath (client lang is often absent from SERVER_DATA).
+        if (!loadFromResourceManager(server.getResourceManager(), map)) {
+            loadFromClasspath(map);
+        }
+        if (map.isEmpty()) {
+            LetterRush.LOGGER.warn("Could not load English item names; using description-id fallback.");
+        } else {
+            LetterRush.LOGGER.info("Loaded {} English name entries for LetterRush matching.", map.size());
         }
         englishByKey = Map.copyOf(map);
+    }
+
+    private static boolean loadFromResourceManager(ResourceManager manager, Map<String, String> map) {
+        try {
+            Optional<Resource> resource = manager.getResource(EN_US);
+            if (resource.isEmpty()) {
+                return false;
+            }
+            try (InputStreamReader reader = new InputStreamReader(resource.get().getInputStream(), StandardCharsets.UTF_8)) {
+                putLangEntries(JsonParser.parseReader(reader).getAsJsonObject(), map);
+            }
+            return !map.isEmpty();
+        } catch (Exception e) {
+            LetterRush.LOGGER.debug("ResourceManager en_us load failed", e);
+            return false;
+        }
+    }
+
+    private static void loadFromClasspath(Map<String, String> map) {
+        try (var stream = EnglishItemNames.class.getClassLoader().getResourceAsStream("assets/minecraft/lang/en_us.json")) {
+            if (stream == null) {
+                return;
+            }
+            try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+                putLangEntries(JsonParser.parseReader(reader).getAsJsonObject(), map);
+            }
+        } catch (Exception e) {
+            LetterRush.LOGGER.debug("Classpath en_us load failed", e);
+        }
+    }
+
+    private static void putLangEntries(JsonObject root, Map<String, String> map) {
+        for (Map.Entry<String, JsonElement> entry : root.entrySet()) {
+            if (entry.getValue().isJsonPrimitive()) {
+                map.put(entry.getKey(), entry.getValue().getAsString());
+            }
+        }
     }
 
     /**
@@ -75,7 +102,8 @@ public final class EnglishItemNames {
         if (stack.isEmpty()) {
             return "";
         }
-        if (stack.contains(DataComponentTypes.CUSTOM_NAME)) {
+        // Prefer getCustomName(): ItemStack.contains(DataComponentType) is absent on NeoForge 1.21.11.
+        if (stack.getCustomName() != null) {
             return stack.getName().getString();
         }
         ensureLoaded(server);
