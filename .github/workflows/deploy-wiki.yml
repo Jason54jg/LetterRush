@@ -1,4 +1,4 @@
-name: Deploy Wiki
+name: Deploy Docs (GitHub Pages)
 
 on:
   push:
@@ -9,21 +9,31 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: letterrush-wiki
+  group: letterrush-pages
   cancel-in-progress: true
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Publish wiki/ to GitHub Wiki
-        uses: Andrew-Chen-Wang/github-wiki-action@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload wiki/ as site
+        uses: actions/upload-pages-artifact@v3
         with:
           path: wiki/
-          # Première exécution : activez le Wiki dans Settings → Features du dépôt
-          # (créez une page Home vide une fois si l’action échoue faute de wiki.git).
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

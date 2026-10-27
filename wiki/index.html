@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LetterRush — Wiki</title>
+  <meta name="description" content="Documentation LetterRush : installation, gameplay, commandes, configuration." />
+  <link rel="icon" href="https://raw.githubusercontent.com/Jason54jg/LetterRush/main/common/src/main/resources/assets/letterrush/icon.png" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+  <style>
+    :root {
+      --theme-color: #2f6f4e;
+    }
+    .app-name-link img {
+      max-height: 36px;
+      vertical-align: middle;
+      margin-right: 0.4rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">Chargement…</div>
+  <script>
+    window.$docsify = {
+      name: 'LetterRush',
+      nameLink: 'Home',
+      repo: 'https://github.com/Jason54jg/LetterRush',
+      homepage: 'Home.md',
+      loadSidebar: true,
+      loadFooter: true,
+      subMaxLevel: 2,
+      auto2top: true,
+      relativePath: true,
+      search: {
+        placeholder: 'Rechercher…',
+        noData: 'Aucun résultat',
+        paths: 'auto'
+      }
+    };
+  </script>
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+</body>
+</html>

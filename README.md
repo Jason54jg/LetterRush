@@ -97,7 +97,7 @@ Single-version Gradle build: `cat gradle/versions/common.properties gradle/versi
 
 ## Wiki
 
-Documentation joueur / serveur : sources dans [`wiki/`](wiki/) — publiée sur le [GitHub Wiki](https://github.com/Jason54jg/LetterRush/wiki) via Actions (`.github/workflows/deploy-wiki.yml`).
+Documentation joueur / serveur : [`wiki/`](wiki/) → site [jason54jg.github.io/LetterRush](https://jason54jg.github.io/LetterRush/) (GitHub Pages via Actions).
 
 ## Modrinth
 
@@ -121,4 +121,4 @@ Mini-jeu multijoueur **letter race** pour Minecraft **1.21.11**, **26.1.2**, **2
 - Config : `config/letterrush.json` ; récompenses aussi via datapack
 
 Détails techniques et build 26.x : sections anglaises ci-dessus et [docs/MINECRAFT-26.md](docs/MINECRAFT-26.md).  
-Wiki FR : [github.com/Jason54jg/LetterRush/wiki](https://github.com/Jason54jg/LetterRush/wiki) (sources `wiki/`).
+Doc FR : [jason54jg.github.io/LetterRush](https://jason54jg.github.io/LetterRush/) (sources `wiki/`).

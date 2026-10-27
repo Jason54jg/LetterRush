@@ -9,6 +9,7 @@ Mini-jeu multijoueur **letter race** pour Minecraft : une lettre A–Z est tiré
 | **Licence** | MIT |
 | **Modrinth** | [modrinth.com/project/letterrush](https://modrinth.com/project/letterrush) *(bientôt)* |
 | **GitHub** | [Jason54jg/LetterRush](https://github.com/Jason54jg/LetterRush) |
+| **Doc** | [jason54jg.github.io/LetterRush](https://jason54jg.github.io/LetterRush/) |
 
 ![Banner LetterRush](https://raw.githubusercontent.com/Jason54jg/LetterRush/main/docs/branding/banner.png)
 

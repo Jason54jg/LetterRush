@@ -37,10 +37,11 @@ Workflow **Build LetterRush** (`.github/workflows/build-letterrush.yml`) :
 - Matrice : `1.21.11` (Java 21), `26.1.2` / `26.2` / `26.3` (Java 25)
 - Artefacts uploadés : `letterrush-<mc>`
 
-Workflow **Deploy Wiki** (`.github/workflows/deploy-wiki.yml`) :
+Workflow **Deploy Docs** (`.github/workflows/deploy-wiki.yml`) :
 
 - Trigger : push sur `main` si `wiki/**` change
-- Publie le dossier `wiki/` vers le [GitHub Wiki](https://github.com/Jason54jg/LetterRush/wiki) du dépôt
+- Publie le dossier `wiki/` sur [GitHub Pages](https://jason54jg.github.io/LetterRush/)
+- Une fois : Settings → Pages → Source = **GitHub Actions**
 
 ## Structure du projet
 
@@ -49,4 +50,4 @@ Workflow **Deploy Wiki** (`.github/workflows/deploy-wiki.yml`) :
 | `common/` | Logique serveur, config, rewards, réseau |
 | `fabric/` | Entrée Fabric + mixin pick-up |
 | `neoforge/` | Entrée NeoForge + event pick-up |
-| `wiki/` | Sources de cette documentation (sync CI) |
+| `wiki/` | Sources de cette documentation (GitHub Pages) |
